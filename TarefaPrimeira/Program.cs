@@ -102,6 +102,12 @@
                         Console.WriteLine("");
                     }
 
+                    if (playersOnServe <= 0)
+                    {
+                        Console.WriteLine("Não há jogadores neste servidor!");
+                        Console.WriteLine("");
+                    }
+
                 }
                 else if (option == 3)
                 {
@@ -192,6 +198,7 @@
                 {
                     Console.WriteLine("OPÇÃO INVÁLIDA!");
                     Console.WriteLine("Selecione a opção desejada");
+                    Console.WriteLine("");
                 }
             }
 
