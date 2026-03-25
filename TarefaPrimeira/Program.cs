@@ -57,16 +57,10 @@
                                 idCheck = int.Parse(Console.ReadLine());
                             }
                         }
+                        
+                        index = playersOnServe;
 
-                        for (int i = 0; i < maxPlayers; i++)
-                        {
-                            if (idPlayer[i] < 1)
-                            {
-                                idPlayer[i] = idCheck;
-                                index = i;
-                                i = maxPlayers;
-                            }
-                        }
+                        idPlayer[index] = idCheck;
 
                         Console.WriteLine("Digite o nome do Personagem");
                         playerNames[index] = Console.ReadLine();
