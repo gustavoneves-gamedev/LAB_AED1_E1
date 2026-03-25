@@ -42,10 +42,13 @@
                     }
                     else
                     {
-                        int index = -1;                        
+                        int index = -1;
 
-                        Console.WriteLine("Insira o ID do jogador [Número inteiro maior que zero]");
+                        Console.WriteLine("===== Jogador " + (playersOnServe + 1) + " =====");
+                        Console.WriteLine("");
+                        Console.WriteLine("Insira o ID do jogador [Número inteiro maior que zero]: ");
                         int idCheck = int.Parse(Console.ReadLine());
+                        
 
                         for (int i = 0; i < maxPlayers; i++)
                         {
@@ -87,6 +90,8 @@
                     //Listar jogadores
                     for (int i = 0; i < playersOnServe; i++)
                     {
+                        Console.WriteLine("===== Jogador " + (1 + i) + " =====");
+                        Console.WriteLine("");
                         Console.WriteLine("ID: " + idPlayer[i]);
                         Console.WriteLine("Nome: " + playerNames[i]);
                         Console.WriteLine("Vida: " + playerLife[i]);
@@ -116,6 +121,8 @@
                     {
                         if (idPlayer[i] == searchID)
                         {
+                            Console.WriteLine("===== Jogador " + (i + 1) + " =====");
+                            Console.WriteLine("");
                             Console.WriteLine("ID: " + idPlayer[i]);
                             Console.WriteLine("Nome: " + playerNames[i]);
                             Console.WriteLine("Vida: " + playerLife[i]);
@@ -185,8 +192,6 @@
                         Console.WriteLine("");
                         playersOnServe--;
                     }
-
-
                 }
                 else if (option != 0)
                 {
