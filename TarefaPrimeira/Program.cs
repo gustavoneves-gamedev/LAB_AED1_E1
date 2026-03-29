@@ -208,9 +208,9 @@
                         {
                             int n = rb.Next(1, 21);
 
-                            if (n >= 8) map[i, j] = '.';
-                            else if (n == 1) map[i, j] = 'E';
-                            else if (n >= 2 && n <= 3) map[i, j] = 'I';
+                            if (n >= 11) map[i, j] = '.';
+                            else if (n <= 2) map[i, j] = 'E';
+                            else if (n >= 3 && n <= 6) map[i, j] = 'I';
                             else map[i, j] = 'X';
 
                             if (i == 0 && j == 0)
