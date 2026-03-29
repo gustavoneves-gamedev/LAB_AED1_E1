@@ -7,7 +7,7 @@
 
             int option = -1;
             int playersOnServe = 0;
-            Random rb = new Random();//Usei apenas para facilitar na hora dos testes
+            Random rb = new Random();
 
             int maxPlayers = 4;
 
@@ -18,6 +18,8 @@
             int[] playerDefense = new int[maxPlayers];
             int[] playerPoints = new int[maxPlayers];
 
+            char[,] map = new char[10, 10];
+
             while (option != 0)
             {
                 Console.WriteLine("===== DUNGEON EXPLORER =====");
@@ -25,6 +27,8 @@
                 Console.WriteLine("2 - Listar jogadores");
                 Console.WriteLine("3 - Buscar jogador por ID");
                 Console.WriteLine("4 - Remover jogador");
+                Console.WriteLine("5 - Gerar mapa da masmorra");
+                Console.WriteLine("6 - Mostrar mapa");
                 Console.WriteLine("0 – Sair");
                 Console.WriteLine("");
                 Console.WriteLine("Selecione a opção desejada");
@@ -48,7 +52,7 @@
                         Console.WriteLine("");
                         Console.WriteLine("Insira o ID do jogador [Número inteiro maior que zero]: ");
                         int idCheck = int.Parse(Console.ReadLine());
-                        
+
 
                         for (int i = 0; i < maxPlayers; i++)
                         {
@@ -60,7 +64,7 @@
                                 idCheck = int.Parse(Console.ReadLine());
                             }
                         }
-                        
+
                         index = playersOnServe;
 
                         idPlayer[index] = idCheck;
@@ -70,7 +74,7 @@
 
                         Console.WriteLine("Digite a Vida do Personagem");
                         //playerLife[index] = int.Parse(Console.ReadLine());
-                        playerLife[index] = rb.Next(1,101);
+                        playerLife[index] = rb.Next(1, 101);
 
                         Console.WriteLine("Digite o Ataque do Personagem");
                         //playerAttack[index] = int.Parse(Console.ReadLine());
@@ -175,7 +179,7 @@
                                 playerLife[i] = playerLife[i + 1];
                                 playerAttack[i] = playerAttack[i + 1];
                                 playerDefense[i] = playerDefense[i + 1];
-                                playerPoints[i] = playerPoints[i + 1];                                
+                                playerPoints[i] = playerPoints[i + 1];
                             }
                             else
                             {
@@ -192,6 +196,51 @@
                         Console.WriteLine("");
                         playersOnServe--;
                     }
+                }
+                else if (option == 5)
+                {
+                    for (int i = 0; i < map.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < map.GetLength(1); j++)
+                        {
+                            int n = rb.Next(1, 11);
+
+                            if (n >= 4) map[i, j] = '.';
+                            else if (n == 1) map[i, j] = 'E';
+                            else if (n == 2) map[i, j] = 'X';
+                            else map[i, j] = 'I';
+
+                            if (i == 0 && j == 0)
+                            {
+                                for (int k = 0; k < map.GetLength(1); k++)
+                                {
+                                    if (k == 0) Console.Write("   " + (k + 1));
+                                    else Console.Write("  " + (k + 1));                                
+                                   
+                                }
+
+                                Console.WriteLine();
+                            }
+
+                            if (j == 0)
+                            {
+                                Console.Write((i + 1) + "  " + map[i, j] + " ");
+                            }
+                            else
+                            {
+                                Console.Write(" " + map[i, j] + " ");
+                            }
+
+                        }
+
+                        Console.WriteLine();
+                    }
+                }
+                else if (option == 6)
+                {
+                    Console.WriteLine("OPÇÃO INVÁLIDA!");
+                    Console.WriteLine("Selecione a opção desejada");
+                    Console.WriteLine("");
                 }
                 else if (option != 0)
                 {
