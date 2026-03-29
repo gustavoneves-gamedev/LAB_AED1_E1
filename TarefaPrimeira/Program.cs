@@ -218,7 +218,7 @@
                                 for (int k = 0; k < map.GetLength(1); k++)
                                 {
                                     if (k == 0) Console.Write("    " + (k + 1));
-                                    else if(k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
+                                    else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
                                     else Console.Write("   " + (k + 1));
 
                                 }
@@ -231,7 +231,7 @@
                             {
                                 Console.Write((i + 1) + "   " + map[i, j] + "  ");
                             }
-                            else if(i == (map.GetLength(0) - 1) && j == 0)
+                            else if (i == (map.GetLength(0) - 1) && j == 0)
                             {
                                 Console.Write((i + 1) + "  " + map[i, j] + "  ");
                             }
@@ -253,7 +253,7 @@
 
                     while (canProcede == false)
                     {
-                        if (map[(x - 1), (y - 1)] != '.' || x < 1 || y < 1 
+                        if (map[(x - 1), (y - 1)] != '.' || x < 1 || y < 1
                             || x > map.GetLength(0) || y > map.GetLength(1))
                         {
                             Console.WriteLine("Espaço inválido! Escolha coordenadas livres [Linha, Coluna]");
@@ -268,13 +268,51 @@
                     }
                     wasMapGenerated = true;
                     Console.WriteLine();
-
-
                 }
                 else if (option == 6)
                 {
-                    Console.WriteLine("OPÇÃO INVÁLIDA!");
-                    Console.WriteLine("Selecione a opção desejada");
+                    if (wasMapGenerated == false)
+                    {
+                        Console.WriteLine("O mapa ainda não foi gerado!");
+                        Console.WriteLine("Por favor, gere o mapa primeiro");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < map.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < map.GetLength(1); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    for (int k = 0; k < map.GetLength(1); k++)
+                                    {
+                                        if (k == 0) Console.Write("    " + (k + 1));
+                                        else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
+                                        else Console.Write("   " + (k + 1));
+                                    }
+
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                }
+
+                                if (j == 0 && i != (map.GetLength(0) - 1))
+                                {
+                                    Console.Write((i + 1) + "   " + map[i, j] + "  ");
+                                }
+                                else if (i == (map.GetLength(0) - 1) && j == 0)
+                                {
+                                    Console.Write((i + 1) + "  " + map[i, j] + "  ");
+                                }
+                                else
+                                {
+                                    Console.Write(" " + map[i, j] + "  ");
+                                }
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine();
+                        }
+                    }
                     Console.WriteLine("");
                 }
                 else if (option != 0)
