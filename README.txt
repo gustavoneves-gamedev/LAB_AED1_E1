@@ -1,35 +1,56 @@
-LAB_AED1_E1
+LAB_AED1_E2
 
 Disciplina: Algoritmos e Estruturas de Dados I – Laboratório
 Curso: Jogos Digitais – PUC Minas Lourdes
-Etapa: Entrega 1 – Cadastro de jogadores com vetores
+Etapa: Entrega 2 – Matrizes e geração da masmorra
 
 Descrição:
-Este projeto implementa uma aplicação console em C# chamada Dungeon Explorer.
-Na Etapa 1, o programa realiza o cadastro de jogadores utilizando vetores paralelos.
+O sistema Dungeon Explorer foi expandido para incluir a geração de um mapa da masmorra utilizando matriz bidimensional.
 
-Funcionalidades:
+Estruturas utilizadas:
+- Vetores para cadastro de jogadores
+- Matriz 10x10 para o mapa
+
+Geração do mapa:
+
+1. Inicialização:
+A matriz é preenchida com '.' representando espaços vazios.
+
+2. Inserção de elementos:
+São inseridos:
+- pelo menos 5 inimigos (E)
+- pelo menos 6 itens (I)
+- pelo menos 10 obstáculos (X)
+- 1 jogador (P)
+
+Regras:
+- Não pode haver sobreposição
+- Apenas posições vazias podem ser usadas
+
+3. Exibição:
+O mapa é exibido organizado no console.
+
+Menu:
+
 1 - Cadastrar jogador
 2 - Listar jogadores
 3 - Buscar jogador por ID
 4 - Remover jogador
+5 - Gerar mapa da masmorra
+6 - Mostrar mapa
 0 - Sair
 
 Como compilar:
-1. Abrir o arquivo TarefaPrimeira.sln no Visual Studio.
-2. Compilar o projeto pelo menu de compilação do Visual Studio.
+Abrir o arquivo TarefaPrimeira.sln no Visual Studio e compilar.
 
 Como executar:
-1. Abrir a solução no Visual Studio.
-2. Executar o programa pressionando F5 ou clicando em Iniciar.
-3. O menu será exibido no console.
+Executar pelo Visual Studio (F5) e utilizar o menu.
 
 Observações:
-- O programa utiliza vetores paralelos para armazenar os dados dos jogadores.
-- O sistema verifica se o ID já existe antes de cadastrar um novo jogador.
-- O sistema permite buscar e remover jogadores por ID.
-- Os atributos de vida, ataque e defesa estão sendo gerados aleatoriamente para facilitar testes.
+- O sistema mantém as funcionalidades da Etapa 1
+- O mapa é gerado dinamicamente
+- Não há uso de orientação a objetos nesta etapa
 
 Autor:
-Nome: Gustavo de Carvalho Pinheiro das Neves
+Gustavo de Carvalho Pinheiro das Neves
 Matrícula: 903012

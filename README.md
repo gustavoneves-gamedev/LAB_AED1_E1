@@ -1,4 +1,4 @@
-# LAB_AED1_E1
+# LAB_AED1_E2
 
 ## Disciplina
 Algoritmos e Estruturas de Dados I – Laboratório
@@ -7,21 +7,20 @@ Algoritmos e Estruturas de Dados I – Laboratório
 Jogos Digitais – PUC Minas Lourdes
 
 ## Etapa
-Entrega 1 – Cadastro de jogadores com vetores
+Entrega 2 – Matrizes e geração da masmorra
 
 ## Descrição
 Este projeto consiste em uma aplicação console em C# do sistema **Dungeon Explorer**.
 
-Nesta primeira etapa, o programa implementa um cadastro simples de jogadores utilizando **vetores paralelos**, permitindo:
+Nesta etapa, o sistema foi expandido para incluir a geração de um **mapa da masmorra**, utilizando uma matriz bidimensional.
 
-- cadastrar jogador
-- listar jogadores
-- buscar jogador por ID
-- remover jogador
-
-Toda a lógica do programa foi desenvolvida dentro do método `Main()`, conforme solicitado no enunciado da Etapa 1.
+O sistema agora possui duas partes principais:
+- Cadastro de jogadores (vetores paralelos)
+- Geração e exibição do mapa (matriz)
 
 ## Estruturas utilizadas
+
+### Vetores
 Foram utilizados vetores paralelos para armazenar os dados dos jogadores:
 
 - ID
@@ -32,6 +31,9 @@ Foram utilizados vetores paralelos para armazenar os dados dos jogadores:
 - Pontuação
 
 Também foi utilizada uma variável de controle para a quantidade de jogadores cadastrados no servidor.
+
+### Matriz
+Utilizada para representar o mapa da masmorra
 
 ## Requisitos para compilação
 Para compilar e executar o projeto, é necessário ter instalado:
