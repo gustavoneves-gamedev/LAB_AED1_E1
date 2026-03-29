@@ -18,7 +18,9 @@
             int[] playerDefense = new int[maxPlayers];
             int[] playerPoints = new int[maxPlayers];
 
+            //Mapa
             char[,] map = new char[10, 10];
+            bool wasMapGenerated = false;
 
             while (option != 0)
             {
@@ -237,13 +239,37 @@
                             {
                                 Console.Write(" " + map[i, j] + "  ");
                             }
-
                         }
 
                         Console.WriteLine();
                         Console.WriteLine();
                     }
                     Console.WriteLine();
+
+                    bool canProcede = false;
+                    Console.WriteLine("Escolha as coordenadas do Player [Linha, Coluna]");
+                    int x = int.Parse(Console.ReadLine());
+                    int y = int.Parse(Console.ReadLine());
+
+                    while (canProcede == false)
+                    {
+                        if (map[(x - 1), (y - 1)] != '.' || x < 1 || y < 1 
+                            || x > map.GetLength(0) || y > map.GetLength(1))
+                        {
+                            Console.WriteLine("Espaço inválido! Escolha coordenadas livres [Linha, Coluna]");
+                            x = int.Parse(Console.ReadLine());
+                            y = int.Parse(Console.ReadLine());
+                        }
+                        else
+                        {
+                            map[(x - 1), (y - 1)] = 'P';
+                            canProcede = true;
+                        }
+                    }
+                    wasMapGenerated = true;
+                    Console.WriteLine();
+
+
                 }
                 else if (option == 6)
                 {
