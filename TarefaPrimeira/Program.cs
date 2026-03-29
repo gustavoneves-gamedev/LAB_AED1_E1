@@ -199,42 +199,51 @@
                 }
                 else if (option == 5)
                 {
+                    Console.WriteLine();
                     for (int i = 0; i < map.GetLength(0); i++)
                     {
                         for (int j = 0; j < map.GetLength(1); j++)
                         {
-                            int n = rb.Next(1, 11);
+                            int n = rb.Next(1, 21);
 
-                            if (n >= 4) map[i, j] = '.';
+                            if (n >= 8) map[i, j] = '.';
                             else if (n == 1) map[i, j] = 'E';
-                            else if (n == 2) map[i, j] = 'X';
-                            else map[i, j] = 'I';
+                            else if (n >= 2 && n <= 3) map[i, j] = 'I';
+                            else map[i, j] = 'X';
 
                             if (i == 0 && j == 0)
                             {
                                 for (int k = 0; k < map.GetLength(1); k++)
                                 {
-                                    if (k == 0) Console.Write("   " + (k + 1));
-                                    else Console.Write("  " + (k + 1));                                
-                                   
+                                    if (k == 0) Console.Write("    " + (k + 1));
+                                    else if(k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
+                                    else Console.Write("   " + (k + 1));
+
                                 }
 
                                 Console.WriteLine();
+                                Console.WriteLine();
                             }
 
-                            if (j == 0)
+                            if (j == 0 && i != (map.GetLength(0) - 1))
                             {
-                                Console.Write((i + 1) + "  " + map[i, j] + " ");
+                                Console.Write((i + 1) + "   " + map[i, j] + "  ");
+                            }
+                            else if(i == (map.GetLength(0) - 1) && j == 0)
+                            {
+                                Console.Write((i + 1) + "  " + map[i, j] + "  ");
                             }
                             else
                             {
-                                Console.Write(" " + map[i, j] + " ");
+                                Console.Write(" " + map[i, j] + "  ");
                             }
 
                         }
 
                         Console.WriteLine();
+                        Console.WriteLine();
                     }
+                    Console.WriteLine();
                 }
                 else if (option == 6)
                 {
