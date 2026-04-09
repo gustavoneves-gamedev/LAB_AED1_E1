@@ -1,7 +1,10 @@
 ﻿namespace TarefaPrimeira
 {
+    
+    
     internal class Program
     {
+        
         static void Main(string[] args)
         {
 
@@ -364,12 +367,12 @@
                 else if (option == 7)
                 {
                     int playerLine = 0, playerRow = 0;
-                    
+
                     for (int i = 0; i < map.GetLength(0); i++)
                     {
                         for (int j = 0; j < map.GetLength(1); j++)
                         {
-                            if (map[i,j] == 'J')
+                            if (map[i, j] == 'P')
                             {
                                 playerLine = i;
                                 playerRow = j;
@@ -381,7 +384,7 @@
 
                     Console.WriteLine("Movimente o jogador [W,A,S,D]");
                     string moveDirection = Console.ReadLine();
-                    
+
 
                     if (moveDirection == "W")
                     {
@@ -401,48 +404,8 @@
                         }
                     }
 
-                    if (wasMapGenerated == false)
-                    {
-                        Console.WriteLine("O mapa ainda não foi gerado!");
-                        Console.WriteLine("Por favor, gere o mapa primeiro");
-                    }
-                    else
-                    {
-                        for (int i = 0; i < map.GetLength(0); i++)
-                        {
-                            for (int j = 0; j < map.GetLength(1); j++)
-                            {
-                                if (i == 0 && j == 0)
-                                {
-                                    for (int k = 0; k < map.GetLength(1); k++)
-                                    {
-                                        if (k == 0) Console.Write("    " + (k + 1));
-                                        else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
-                                        else Console.Write("   " + (k + 1));
-                                    }
+                    
 
-                                    Console.WriteLine();
-                                    Console.WriteLine();
-                                }
-
-                                if (j == 0 && i != (map.GetLength(0) - 1))
-                                {
-                                    Console.Write((i + 1) + "   " + map[i, j] + "  ");
-                                }
-                                else if (i == (map.GetLength(0) - 1) && j == 0)
-                                {
-                                    Console.Write((i + 1) + "  " + map[i, j] + "  ");
-                                }
-                                else
-                                {
-                                    Console.Write(" " + map[i, j] + "  ");
-                                }
-                            }
-
-                            Console.WriteLine();
-                            Console.WriteLine();
-                        }
-                    }
                     Console.WriteLine("");
 
                 }
