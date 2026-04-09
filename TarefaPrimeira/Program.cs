@@ -6,7 +6,7 @@
         {
 
             int option = -1;
-            int playersOnServe = 0;
+            int playersOnServe = 0, activePlayerIndex = -1;
             Random rb = new Random();
 
             int maxPlayers = 4;
@@ -31,6 +31,7 @@
                 Console.WriteLine("4 - Remover jogador");
                 Console.WriteLine("5 - Gerar mapa da masmorra");
                 Console.WriteLine("6 - Mostrar mapa");
+                Console.WriteLine("7 - Movimentar jogador");
                 Console.WriteLine("0 – Sair");
                 Console.WriteLine("");
                 Console.WriteLine("Selecione a opção desejada");
@@ -137,6 +138,7 @@
                             Console.WriteLine("Pontos: " + playerPoints[i]);
                             Console.WriteLine("");
                             hasFound = true;
+                            activePlayerIndex = i;
                         }
                     }
 
@@ -358,6 +360,91 @@
                         }
                     }
                     Console.WriteLine("");
+                }
+                else if (option == 7)
+                {
+                    int playerLine = 0, playerRow = 0;
+                    
+                    for (int i = 0; i < map.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < map.GetLength(1); j++)
+                        {
+                            if (map[i,j] == 'J')
+                            {
+                                playerLine = i;
+                                playerRow = j;
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
+
+                    Console.WriteLine("Movimente o jogador [W,A,S,D]");
+                    string moveDirection = Console.ReadLine();
+                    
+
+                    if (moveDirection == "W")
+                    {
+                        if (map[playerLine - 1, playerRow] != 'X' && playerLine - 1 > 0)
+                        {
+                            if (map[playerLine - 1, playerRow] == 'I')
+                            {
+                                playerPoints[activePlayerIndex] += 10;
+                            }
+                            else if (map[playerLine - 1, playerRow] == 'E')
+                            {
+                                playerPoints[activePlayerIndex] += 20;
+                            }
+
+                            map[playerLine, playerRow] = '.';
+                            map[playerLine - 1, playerRow] = 'P';
+                        }
+                    }
+
+                    if (wasMapGenerated == false)
+                    {
+                        Console.WriteLine("O mapa ainda não foi gerado!");
+                        Console.WriteLine("Por favor, gere o mapa primeiro");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < map.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < map.GetLength(1); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    for (int k = 0; k < map.GetLength(1); k++)
+                                    {
+                                        if (k == 0) Console.Write("    " + (k + 1));
+                                        else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
+                                        else Console.Write("   " + (k + 1));
+                                    }
+
+                                    Console.WriteLine();
+                                    Console.WriteLine();
+                                }
+
+                                if (j == 0 && i != (map.GetLength(0) - 1))
+                                {
+                                    Console.Write((i + 1) + "   " + map[i, j] + "  ");
+                                }
+                                else if (i == (map.GetLength(0) - 1) && j == 0)
+                                {
+                                    Console.Write((i + 1) + "  " + map[i, j] + "  ");
+                                }
+                                else
+                                {
+                                    Console.Write(" " + map[i, j] + "  ");
+                                }
+                            }
+
+                            Console.WriteLine();
+                            Console.WriteLine();
+                        }
+                    }
+                    Console.WriteLine("");
+
                 }
                 else if (option != 0)
                 {
