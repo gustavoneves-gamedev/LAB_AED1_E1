@@ -353,6 +353,7 @@
         private static void MoverJogador()
         {
             int playerLine = 0, playerRow = 0;
+            string moveDirection = "W"; //Usarei para entrar no while ou pulá-lo caso os requisitos não sejam atendidos
 
             for (int i = 0; i < map.GetLength(0); i++)
             {
@@ -370,8 +371,6 @@
             //Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
 
             MostrarMapa();
-
-            string moveDirection = "W"; //Usarei para entrar no while ou pulá-lo caso os requisitos não sejam atendidos
 
             if (!wasMapGenerated)
             {
