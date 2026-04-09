@@ -1,4 +1,4 @@
-# LAB_AED1_E2
+# LAB_AED1_E3
 
 ## Disciplina
 Algoritmos e Estruturas de Dados I – Laboratório
@@ -7,16 +7,29 @@ Algoritmos e Estruturas de Dados I – Laboratório
 Jogos Digitais – PUC Minas Lourdes
 
 ## Etapa
-Entrega 2 – Matrizes e geração da masmorra
+Entrega 3 – Funções e movimentação do jogador
 
 ## Descrição
 Este projeto consiste em uma aplicação console em C# do sistema **Dungeon Explorer**.
 
-Nesta etapa, o sistema foi expandido para incluir a geração de um **mapa da masmorra**, utilizando uma matriz bidimensional.
+Nesta etapa, o sistema foi evoluído com:
 
-O sistema agora possui duas partes principais:
-- Cadastro de jogadores (vetores paralelos)
-- Geração e exibição do mapa (matriz)
+- organização do código em funções
+- integração entre jogadores e mapa
+- movimentação do jogador dentro da masmorra
+
+O sistema agora possui três componentes principais:
+- cadastro de jogadores (vetores)
+- mapa da masmorra (matriz)
+- movimentação do jogador
+
+## Movimentação
+Controles:
+W - cima
+A - esquerda
+S - baixo
+D - direita
+(Case Insensitive)
 
 ## Estruturas utilizadas
 
@@ -58,6 +71,9 @@ O programa apresenta o seguinte menu:
 - `2` - Listar jogadores
 - `3` - Buscar jogador por ID
 - `4` - Remover jogador
+- `5` - Gerar mapa da masmorra
+- `6` - Mostrar mapa
+- `7` - Movimentar jogador
 - `0` - Sair
 
 ## Observações sobre a implementação
@@ -66,6 +82,7 @@ O programa apresenta o seguinte menu:
 - A busca de jogadores é feita por ID.
 - A remoção reorganiza os vetores, deslocando os jogadores seguintes uma posição para trás.
 - Nesta versão, os atributos de vida, ataque e defesa estão sendo gerados com valores aleatórios para facilitar os testes.
+- O jogador escolhido se move corretamente pelo mapa gerado
 
 ## Arquivos da entrega
 A entrega da etapa deve conter:
