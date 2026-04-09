@@ -1,7 +1,6 @@
 ﻿namespace TarefaPrimeira
 {
 
-
     internal class Program
     {
         static int option = -1;
@@ -45,8 +44,8 @@
                 else if (option == 3) BuscarJogador(); //Buscar jogador por ID
                 else if (option == 4) RemoverJogador(); //Remover jogador pelo ID 
                 else if (option == 5) GerandoMapa(); //Gerando Mapa
-                else if (option == 6) ShowMap(); //Mostrar Mapa
-                else if (option == 7) MovePlayer(); //Movimentação do Player
+                else if (option == 6) MostrarMapa(); //Mostrar Mapa
+                else if (option == 7) MoverJogador(); //Movimentação do Player
                 else if (option != 0)
                 {
                     Console.WriteLine("OPÇÃO INVÁLIDA!");
@@ -274,7 +273,7 @@
             }
             
             wasMapGenerated = true;
-            ShowMap();
+            MostrarMapa();
 
             Console.WriteLine();
 
@@ -299,12 +298,12 @@
                 }
             }
 
-            ShowMap();
+            MostrarMapa();
 
             Console.WriteLine();
         }
 
-        private static void ShowMap()
+        private static void MostrarMapa()
         {
             if (wasMapGenerated == false)
             {
@@ -351,7 +350,7 @@
             Console.WriteLine("");
         }
 
-        private static void MovePlayer()
+        private static void MoverJogador()
         {
             int playerLine = 0, playerRow = 0;
 
@@ -369,7 +368,7 @@
 
             Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
 
-            ShowMap();
+            MostrarMapa();
             if (!wasMapGenerated)
             {
                 Console.WriteLine();
@@ -497,7 +496,7 @@
                     }
                 }
 
-                ShowMap();
+                MostrarMapa();
             }
 
             

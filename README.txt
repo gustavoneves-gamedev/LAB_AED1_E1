@@ -1,55 +1,48 @@
-LAB_AED1_E2
+LAB_AED1_E3
 
 Disciplina: Algoritmos e Estruturas de Dados I – Laboratório
 Curso: Jogos Digitais – PUC Minas Lourdes
-Etapa: Entrega 2 – Matrizes e geração da masmorra
+Etapa: Entrega 3 – Funções e movimentação do jogador
 
 Descrição:
-O sistema Dungeon Explorer foi expandido para incluir a geração de um mapa da masmorra utilizando matriz bidimensional.
+O sistema Dungeon Explorer foi expandido com organização em funções e movimentação do jogador no mapa.
 
-Estruturas utilizadas:
-- Vetores para cadastro de jogadores
-- Matriz 10x10 para o mapa
+Funções implementadas:
+CadastrarJogador()
+ListarJogadores()
+BuscarJogador()
+RemoverJogador()
+GerandoMapa()
+MostrarMapa()
+MoverJogador()
 
-Geração do mapa:
+Seleção do jogador:
+Realizada pela opção 3 (buscar por ID).
+O jogador encontrado é definido como jogador ativo.
 
-1. Inicialização:
-A matriz é preenchida com '.' representando espaços vazios.
-
-2. Inserção de elementos:
-São inseridos:
-- pelo menos 5 inimigos (E)
-- pelo menos 6 itens (I)
-- pelo menos 10 obstáculos (X)
-- 1 jogador (P)
+Movimentação:
+Controles:
+W - cima
+A - esquerda
+S - baixo
+D - direita
+(Case Insensitive)
 
 Regras:
-- Não pode haver sobreposição
-- Apenas posições vazias podem ser usadas
+- não pode sair do mapa
+- não pode atravessar obstáculos
+- posição anterior vira '.'
 
-3. Exibição:
-O mapa é exibido organizado no console.
-
-Menu:
-
-1 - Cadastrar jogador
-2 - Listar jogadores
-3 - Buscar jogador por ID
-4 - Remover jogador
-5 - Gerar mapa da masmorra
-6 - Mostrar mapa
-0 - Sair
+Interações:
+Item (I): +10 pontos
+Inimigo (E): +20 pontos
+Obstáculo (X): bloqueia movimento
 
 Como compilar:
-Abrir o arquivo TarefaPrimeira.sln no Visual Studio e compilar.
+Abrir TarefaPrimeira.sln no Visual Studio e compilar.
 
 Como executar:
-Executar pelo Visual Studio (F5) e utilizar o menu.
-
-Observações:
-- O sistema mantém as funcionalidades da Etapa 1
-- O mapa é gerado dinamicamente
-- Não há uso de orientação a objetos nesta etapa
+Executar com F5 e utilizar o menu.
 
 Autor:
 Gustavo de Carvalho Pinheiro das Neves
