@@ -366,23 +366,26 @@
                 }
             }
 
-            Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
+            //Para fins de teste:
+            //Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
 
             MostrarMapa();
+
+            string moveDirection = "W"; //Usarei para entrar no while ou pulá-lo caso os requisitos não sejam atendidos
+
             if (!wasMapGenerated)
             {
-                Console.WriteLine();
-                return;
+                moveDirection = "NoMap";
+                
             }
-            if (activePlayerIndex < 0)
+            if (activePlayerIndex < 0 && moveDirection != "NoMap")
             {
-                Console.WriteLine("Não há jogador ativo! Escolha um jogador primeiro");
-                Console.WriteLine();
-                return;
+                Console.WriteLine("Não há jogador ativo! Escolha um jogador primeiro");                
+                moveDirection = "ESC";
             }
 
             Console.WriteLine();
-            string moveDirection = "W";
+            
 
             while (moveDirection == "W" || moveDirection == "A" || moveDirection == "S" || moveDirection == "D"
                 || moveDirection == "w" || moveDirection == "a" || moveDirection == "s" || moveDirection == "d")
@@ -393,25 +396,32 @@
 
                 if (moveDirection == "W" || moveDirection == "w")
                 {
-                    if (map[playerLine - 1, playerRow] != 'X' && playerLine - 1 >= 0)
+                    if (playerLine - 1 >= 0)
                     {
-                        if (map[playerLine - 1, playerRow] == 'I')
+                        if (map[playerLine - 1, playerRow] != 'X')
                         {
-                            playerPoints[activePlayerIndex] += 10;
-                            Console.WriteLine("Peguei um item! (+10 pts)");
-                            Console.WriteLine();
-                        }
-                        else if (map[playerLine - 1, playerRow] == 'E')
-                        {
-                            playerPoints[activePlayerIndex] += 20;
-                            Console.WriteLine("Matei um inimigo! (+20 pts)");
-                            Console.WriteLine();
-                        }
+                            if (map[playerLine - 1, playerRow] == 'I')
+                            {
+                                playerPoints[activePlayerIndex] += 10;
+                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                Console.WriteLine();
+                            }
+                            else if (map[playerLine - 1, playerRow] == 'E')
+                            {
+                                playerPoints[activePlayerIndex] += 20;
+                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                Console.WriteLine();
+                            }
 
-                        map[playerLine, playerRow] = '.';
-                        map[playerLine - 1, playerRow] = 'P';
-                        playerLine--;
-                    }
+                            map[playerLine, playerRow] = '.';
+                            map[playerLine - 1, playerRow] = 'P';
+                            playerLine--;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Movimento Inválido!");
+                        }
+                    }                   
                     else
                     {
                         Console.WriteLine("Movimento Inválido!");
@@ -419,25 +429,32 @@
                 }
                 else if (moveDirection == "S" || moveDirection == "s")
                 {
-                    if (map[playerLine + 1, playerRow] != 'X' && playerLine + 1 < map.GetLength(0))
+                    if (playerLine + 1 < map.GetLength(0))
                     {
-                        if (map[playerLine + 1, playerRow] == 'I')
+                        if (map[playerLine + 1, playerRow] != 'X')
                         {
-                            playerPoints[activePlayerIndex] += 10;
-                            Console.WriteLine("Peguei um item! (+10 pts)");
-                            Console.WriteLine();
-                        }
-                        else if (map[playerLine + 1, playerRow] == 'E')
-                        {
-                            playerPoints[activePlayerIndex] += 20;
-                            Console.WriteLine("Matei um inimigo! (+20 pts)");
-                            Console.WriteLine();
-                        }
+                            if (map[playerLine + 1, playerRow] == 'I')
+                            {
+                                playerPoints[activePlayerIndex] += 10;
+                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                Console.WriteLine();
+                            }
+                            else if (map[playerLine + 1, playerRow] == 'E')
+                            {
+                                playerPoints[activePlayerIndex] += 20;
+                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                Console.WriteLine();
+                            }
 
-                        map[playerLine, playerRow] = '.';
-                        map[playerLine + 1, playerRow] = 'P';
-                        playerLine++;
-                    }
+                            map[playerLine, playerRow] = '.';
+                            map[playerLine + 1, playerRow] = 'P';
+                            playerLine++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Movimento Inválido!");
+                        }
+                    }                    
                     else
                     {
                         Console.WriteLine("Movimento Inválido!");
@@ -445,24 +462,31 @@
                 }
                 else if (moveDirection == "A" || moveDirection == "a")
                 {
-                    if (map[playerLine, playerRow - 1] != 'X' && playerRow - 1 >= 0)
+                    if (playerRow - 1 >= 0)
                     {
-                        if (map[playerLine, playerRow - 1] == 'I')
+                        if (map[playerLine, playerRow - 1] != 'X')
                         {
-                            playerPoints[activePlayerIndex] += 10;
-                            Console.WriteLine("Peguei um item! (+10 pts)");
-                            Console.WriteLine();
-                        }
-                        else if (map[playerLine, playerRow - 1] == 'E')
-                        {
-                            playerPoints[activePlayerIndex] += 20;
-                            Console.WriteLine("Matei um inimigo! (+20 pts)");
-                            Console.WriteLine();
-                        }
+                            if (map[playerLine, playerRow - 1] == 'I')
+                            {
+                                playerPoints[activePlayerIndex] += 10;
+                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                Console.WriteLine();
+                            }
+                            else if (map[playerLine, playerRow - 1] == 'E')
+                            {
+                                playerPoints[activePlayerIndex] += 20;
+                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                Console.WriteLine();
+                            }
 
-                        map[playerLine, playerRow] = '.';
-                        map[playerLine, playerRow - 1] = 'P';
-                        playerRow--;
+                            map[playerLine, playerRow] = '.';
+                            map[playerLine, playerRow - 1] = 'P';
+                            playerRow--;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Movimento Inválido!");
+                        }
                     }
                     else
                     {
@@ -471,24 +495,31 @@
                 }
                 else if (moveDirection == "D" || moveDirection == "d")
                 {
-                    if (map[playerLine, playerRow + 1] != 'X' && playerRow + 1 < map.GetLength(1))
+                    if (playerRow + 1 < map.GetLength(1))
                     {
-                        if (map[playerLine, playerRow + 1] == 'I')
+                        if (map[playerLine, playerRow + 1] != 'X')
                         {
-                            playerPoints[activePlayerIndex] += 10;
-                            Console.WriteLine("Peguei um item! (+10 pts)");
-                            Console.WriteLine();
-                        }
-                        else if (map[playerLine, playerRow + 1] == 'E')
-                        {
-                            playerPoints[activePlayerIndex] += 20;
-                            Console.WriteLine("Matei um inimigo! (+20 pts)");
-                            Console.WriteLine();
-                        }
+                            if (map[playerLine, playerRow + 1] == 'I')
+                            {
+                                playerPoints[activePlayerIndex] += 10;
+                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                Console.WriteLine();
+                            }
+                            else if (map[playerLine, playerRow + 1] == 'E')
+                            {
+                                playerPoints[activePlayerIndex] += 20;
+                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                Console.WriteLine();
+                            }
 
-                        map[playerLine, playerRow] = '.';
-                        map[playerLine, playerRow + 1] = 'P';
-                        playerRow++;
+                            map[playerLine, playerRow] = '.';
+                            map[playerLine, playerRow + 1] = 'P';
+                            playerRow++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Movimento Inválido!");
+                        }
                     }
                     else
                     {
@@ -498,9 +529,6 @@
 
                 MostrarMapa();
             }
-
-            
-
 
 
             Console.WriteLine("");
