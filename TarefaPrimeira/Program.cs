@@ -201,17 +201,63 @@
                 }
                 else if (option == 5)
                 {
+                    int enemyCounter = 0, itemCounter = 0, obstaclesCounter = 0;
+                    bool canProcede = false;
+
                     Console.WriteLine();
+
+                    //Gerando o Mapa
+                    while (!canProcede)
+                    {
+                        for (int i = 0; i < map.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < map.GetLength(1); j++)
+                            {
+                                int n = rb.Next(1, 21);
+
+                                if (n >= 11)
+                                {
+                                    map[i, j] = '.';
+                                }
+                                else if (n <= 2)
+                                {
+                                    map[i, j] = 'E';
+                                    enemyCounter++;
+                                }
+                                else if (n >= 3 && n <= 6)
+                                {
+                                    map[i, j] = 'I';
+                                    itemCounter++;
+                                }
+                                else
+                                {
+                                    map[i, j] = 'X';
+                                    obstaclesCounter++;
+                                }
+
+                                //Fazendo o mapa ser gerado novamente caso falhe na conferência
+                                if ((i == map.GetLength(0) - 1) && (j == map.GetLength(1) - 1))
+                                {
+                                    if (enemyCounter < 5 || itemCounter < 6 || obstaclesCounter < 10)
+                                    {
+                                        enemyCounter = 0;
+                                        itemCounter = 0;
+                                        obstaclesCounter = 0;
+                                    }
+                                    else
+                                    {
+                                        canProcede = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //Mostrando o mapa no Console
                     for (int i = 0; i < map.GetLength(0); i++)
                     {
                         for (int j = 0; j < map.GetLength(1); j++)
                         {
-                            int n = rb.Next(1, 21);
-
-                            if (n >= 11) map[i, j] = '.';
-                            else if (n <= 2) map[i, j] = 'E';
-                            else if (n >= 3 && n <= 6) map[i, j] = 'I';
-                            else map[i, j] = 'X';
 
                             if (i == 0 && j == 0)
                             {
@@ -220,7 +266,6 @@
                                     if (k == 0) Console.Write("    " + (k + 1));
                                     else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
                                     else Console.Write("   " + (k + 1));
-
                                 }
 
                                 Console.WriteLine();
@@ -240,13 +285,12 @@
                                 Console.Write(" " + map[i, j] + "  ");
                             }
                         }
-
                         Console.WriteLine();
                         Console.WriteLine();
                     }
                     Console.WriteLine();
 
-                    bool canProcede = false;
+                    canProcede = false;
                     Console.WriteLine("Escolha as coordenadas do Player [Linha, Coluna]");
                     int x = int.Parse(Console.ReadLine());
                     int y = int.Parse(Console.ReadLine());
