@@ -14,9 +14,11 @@
         static int[] playerAttack = new int[maxPlayers];
         static int[] playerDefense = new int[maxPlayers];
         static int[] playerPoints = new int[maxPlayers];
-
+        
         //Mapa
         static char[,] map = new char[10, 10];
+        static bool[,] mapExploration = new bool[10, 10];
+        static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
         static bool wasMapGenerated = false;
 
         static void Main(string[] args)
@@ -46,6 +48,7 @@
                 else if (option == 5) GerandoMapa(); //Gerando Mapa
                 else if (option == 6) MostrarMapa(); //Mostrar Mapa
                 else if (option == 7) MoverJogador(); //Movimentação do Player
+                else if (option == 8) RelatorioExploracao();
                 else if (option != 0)
                 {
                     Console.WriteLine("OPÇÃO INVÁLIDA!");
@@ -252,7 +255,10 @@
                         {
                             map[i, j] = 'X';
                             obstaclesCounter++;
+                            mapExploration[i,j] = true; //Serve para indicar que, onde há obstáculo, o mapa já é considerado como explorado
                         }
+
+                        mapExploration[i,j] = false;
 
                         //Fazendo o mapa ser gerado novamente caso falhe na conferência
                         if ((i == map.GetLength(0) - 1) && (j == map.GetLength(1) - 1))
@@ -294,6 +300,7 @@
                 else
                 {
                     map[(x - 1), (y - 1)] = 'P';
+                    mapExploration[(x - 1), (y - 1)] = true;
                     canProcede = true;
                 }
             }
@@ -363,6 +370,7 @@
                     {
                         playerLine = i;
                         playerRow = j;
+                        mapExploration[i, j] = true;
                     }
                 }
             }
@@ -414,6 +422,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine - 1, playerRow] = 'P';
+                            mapExploration[playerLine - 1, playerRow] = true;
                             playerLine--;
                         }
                         else
@@ -447,6 +456,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine + 1, playerRow] = 'P';
+                            mapExploration[playerLine + 1, playerRow] = true;
                             playerLine++;
                         }
                         else
@@ -480,6 +490,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine, playerRow - 1] = 'P';
+                            mapExploration[playerLine, playerRow - 1] = true;
                             playerRow--;
                         }
                         else
@@ -513,6 +524,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine, playerRow + 1] = 'P';
+                            mapExploration[playerLine, playerRow + 1] = true;
                             playerRow++;
                         }
                         else
@@ -533,6 +545,28 @@
             Console.WriteLine("");
         }
 
+        private static void RelatorioExploracao()
+        {
+            ContarElementos(0, map);
+        }
+
+        private static void ContarElementos(int elementCode, char[,] map)
+        {
+            for (int i = 0; i < elementsCounter.Length; i++)
+            {
+                elementsCounter[i] = 0;
+            }
+            
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] == 'E') elementsCounter[0]++;
+                    else if(map[i, j] == 'I') elementsCounter[1]++;
+                    else if (map[i, j] == 'X') elementsCounter[2]++;
+                }
+            }
+        }
         
     }
 }
