@@ -14,12 +14,13 @@
         static int[] playerAttack = new int[maxPlayers];
         static int[] playerDefense = new int[maxPlayers];
         static int[] playerPoints = new int[maxPlayers];
-        
+
         //Mapa
         static char[,] map = new char[10, 10];
-        static bool[,] mapExploration = new bool[10, 10];
+        static int[,] mapExploration = new int[10, 10];
+        static float maxExploration = 0;
         static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
-        static bool wasMapGenerated = false;
+        static bool wasMapGenerated = false, hasPlayBegun = false;
 
         static void Main(string[] args)
         {
@@ -34,6 +35,7 @@
                 Console.WriteLine("5 - Gerar mapa da masmorra");
                 Console.WriteLine("6 - Mostrar mapa");
                 Console.WriteLine("7 - Movimentar jogador");
+                Console.WriteLine("8 - Exibir Relatório de Exploração");
                 Console.WriteLine("0 – Sair");
                 Console.WriteLine("");
                 Console.WriteLine("Selecione a opção desejada");
@@ -48,7 +50,8 @@
                 else if (option == 5) GerandoMapa(); //Gerando Mapa
                 else if (option == 6) MostrarMapa(); //Mostrar Mapa
                 else if (option == 7) MoverJogador(); //Movimentação do Player
-                else if (option == 8) RelatorioExploracao();
+                else if (option == 8) RelatorioExploracao(); //Apresenta relatório de exploração
+                else if (option == 9) SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
                 else if (option != 0)
                 {
                     Console.WriteLine("OPÇÃO INVÁLIDA!");
@@ -74,8 +77,8 @@
                 Console.WriteLine("===== Jogador " + (playersOnServe + 1) + " =====");
                 Console.WriteLine("");
                 Console.WriteLine("Insira o ID do jogador [Número inteiro maior que zero]: ");
-                int idCheck = int.Parse(Console.ReadLine());   
-                
+                int idCheck = int.Parse(Console.ReadLine());
+
 
                 for (int i = 0; i < maxPlayers; i++)
                 {
@@ -158,6 +161,7 @@
                     Console.WriteLine("");
                     hasFound = true;
                     activePlayerIndex = i;
+                    if (wasMapGenerated == true) hasPlayBegun = true;
                 }
             }
 
@@ -255,10 +259,10 @@
                         {
                             map[i, j] = 'X';
                             obstaclesCounter++;
-                            mapExploration[i,j] = true; //Serve para indicar que, onde há obstáculo, o mapa já é considerado como explorado
+
                         }
 
-                        mapExploration[i,j] = false;
+                        mapExploration[i, j] = 0; //Zera o mapa de exploração                        
 
                         //Fazendo o mapa ser gerado novamente caso falhe na conferência
                         if ((i == map.GetLength(0) - 1) && (j == map.GetLength(1) - 1))
@@ -277,7 +281,8 @@
                     }
                 }
             }
-            
+
+            maxExploration = map.Length - obstaclesCounter; //Calcula o valor máximo da exploração
             wasMapGenerated = true;
             MostrarMapa();
 
@@ -300,11 +305,12 @@
                 else
                 {
                     map[(x - 1), (y - 1)] = 'P';
-                    mapExploration[(x - 1), (y - 1)] = true;
+                    mapExploration[(x - 1), (y - 1)] = 1;
                     canProcede = true;
                 }
             }
 
+            if (activePlayerIndex != -1) hasPlayBegun = true;
             MostrarMapa();
 
             Console.WriteLine();
@@ -362,6 +368,20 @@
             int playerLine = 0, playerRow = 0;
             string moveDirection = "W"; //Usarei para entrar no while ou pulá-lo caso os requisitos não sejam atendidos
 
+
+            MostrarMapa();
+
+            if (!wasMapGenerated)
+            {
+                moveDirection = "NoMap";
+
+            }
+            if (activePlayerIndex < 0 && moveDirection != "NoMap")
+            {
+                Console.WriteLine("Não há jogador ativo! Escolha um jogador primeiro");
+                moveDirection = "ESC";
+            }
+
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
@@ -370,29 +390,13 @@
                     {
                         playerLine = i;
                         playerRow = j;
-                        mapExploration[i, j] = true;
+                        mapExploration[i, j] = 1;
                     }
                 }
             }
 
-            //Para fins de teste:
-            //Console.WriteLine("X = " + playerLine + " | Y = " + playerRow);
-
-            MostrarMapa();
-
-            if (!wasMapGenerated)
-            {
-                moveDirection = "NoMap";
-                
-            }
-            if (activePlayerIndex < 0 && moveDirection != "NoMap")
-            {
-                Console.WriteLine("Não há jogador ativo! Escolha um jogador primeiro");                
-                moveDirection = "ESC";
-            }
-
             Console.WriteLine();
-            
+
 
             while (moveDirection == "W" || moveDirection == "A" || moveDirection == "S" || moveDirection == "D"
                 || moveDirection == "w" || moveDirection == "a" || moveDirection == "s" || moveDirection == "d")
@@ -422,14 +426,14 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine - 1, playerRow] = 'P';
-                            mapExploration[playerLine - 1, playerRow] = true;
+                            mapExploration[playerLine - 1, playerRow] = 1;
                             playerLine--;
                         }
                         else
                         {
                             Console.WriteLine("Movimento Inválido!");
                         }
-                    }                   
+                    }
                     else
                     {
                         Console.WriteLine("Movimento Inválido!");
@@ -456,14 +460,14 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine + 1, playerRow] = 'P';
-                            mapExploration[playerLine + 1, playerRow] = true;
+                            mapExploration[playerLine + 1, playerRow] = 1;
                             playerLine++;
                         }
                         else
                         {
                             Console.WriteLine("Movimento Inválido!");
                         }
-                    }                    
+                    }
                     else
                     {
                         Console.WriteLine("Movimento Inválido!");
@@ -490,7 +494,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine, playerRow - 1] = 'P';
-                            mapExploration[playerLine, playerRow - 1] = true;
+                            mapExploration[playerLine, playerRow - 1] = 1;
                             playerRow--;
                         }
                         else
@@ -524,7 +528,7 @@
 
                             map[playerLine, playerRow] = '.';
                             map[playerLine, playerRow + 1] = 'P';
-                            mapExploration[playerLine, playerRow + 1] = true;
+                            mapExploration[playerLine, playerRow + 1] = 1;
                             playerRow++;
                         }
                         else
@@ -545,9 +549,26 @@
             Console.WriteLine("");
         }
 
+        #region Realtorio de Exploracao
         private static void RelatorioExploracao()
         {
-            ContarElementos(0, map);
+            if (hasPlayBegun == false)
+            {
+                Console.WriteLine("O jogo ainda não começou! Gere o mapa e defina o jogador primeiro");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("===== RELATÓRIO DA EXPLORAÇÃO =====");
+                Console.WriteLine();
+
+                ContarElementos(0, map);
+                PercentualExploracao();
+                AvaliarSituacaoJogador();
+
+                Console.WriteLine();
+            }
+
         }
 
         private static void ContarElementos(int elementCode, char[,] map)
@@ -556,17 +577,68 @@
             {
                 elementsCounter[i] = 0;
             }
-            
+
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
                     if (map[i, j] == 'E') elementsCounter[0]++;
-                    else if(map[i, j] == 'I') elementsCounter[1]++;
+                    else if (map[i, j] == 'I') elementsCounter[1]++;
                     else if (map[i, j] == 'X') elementsCounter[2]++;
                 }
             }
+
+            Console.WriteLine("Inimigos restantes: " + elementsCounter[0]);
+            Console.WriteLine("Itens restantes: " + elementsCounter[1]);
+            Console.WriteLine("Obstáculos no mapa: " + elementsCounter[2]);
         }
-        
+
+        private static void PercentualExploracao()
+        {
+            int exploredAreas = 0;
+            float percentage = 0;
+
+            for (int i = 0; i < mapExploration.GetLength(0); i++)
+            {
+                for (int j = 0; j < mapExploration.GetLength(1); j++)
+                {
+                    exploredAreas += mapExploration[i, j];
+                }
+            }
+
+            percentage = (exploredAreas / maxExploration) * 100;
+
+            Console.WriteLine("Percentual explorado: " + percentage.ToString("F1") + "%");
+        }
+
+        private static void AvaliarSituacaoJogador()
+        {
+            string playerLifeSituation = "Vida moderada", exploration = "Exploração estável";
+
+            if (playerLife[activePlayerIndex] >= 80) playerLifeSituation = "Vida alta";
+            else if (playerLife[activePlayerIndex] < 40) playerLifeSituation = "Vida crítica";
+            else playerLifeSituation = "Vida moderada";
+            Console.WriteLine("Situação da vida: " + playerLifeSituation);
+
+            if (playerPoints[activePlayerIndex] >= 100 && elementsCounter[0] <= 2) exploration = "Exploração excelente";
+            else if (playerPoints[activePlayerIndex] >= 50) exploration = "Exploração estável";
+            else exploration = "Exploração em risco";
+            Console.WriteLine("Situação do desempenho: " + exploration);
+        }
+
+        private static void SecretReport()//Está aqui para testes apenas
+        {
+            for (int i = 0; i < mapExploration.GetLength(0); i++)
+            {
+                for (int j = 0; j < mapExploration.GetLength(1); j++)
+                {
+                    Console.Write(mapExploration[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        #endregion
+
     }
 }
