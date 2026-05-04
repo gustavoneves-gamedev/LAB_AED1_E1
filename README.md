@@ -12,16 +12,17 @@ Entrega 3 – Funções e movimentação do jogador
 ## Descrição
 Este projeto consiste em uma aplicação console em C# do sistema **Dungeon Explorer**.
 
-Nesta etapa, o sistema foi evoluído com:
+Nesta etapa, o sistema foi evoluído com a implementação de um **relatório de exploração**, permitindo analisar o estado atual da masmorra e do jogador.
 
-- organização do código em funções
-- integração entre jogadores e mapa
-- movimentação do jogador dentro da masmorra
+A nova funcionalidade permite verificar:
 
-O sistema agora possui três componentes principais:
-- cadastro de jogadores (vetores)
-- mapa da masmorra (matriz)
-- movimentação do jogador
+- inimigos restantes
+- itens restantes
+- obstáculos presentes no mapa
+- percentual de exploração da masmorra
+- situação da vida do jogador
+- situação do desempenho do jogador
+
 
 ## Movimentação
 Controles:
