@@ -582,12 +582,13 @@
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (map[i, j] == 'E') elementsCounter[0]++;
+                    //if (map[i, j] == 'E') elementsCounter[0]++;
                     //else if (map[i, j] == 'I') elementsCounter[1]++;
-                    else if (map[i, j] == 'X') elementsCounter[2]++;
+                    if (map[i, j] == 'X') elementsCounter[2]++;
                 }
             }
 
+            elementsCounter[0] = ContarInimigosRecursivo(map, 0, 0);
             elementsCounter[1] = ContarItensRecursivo(map, 0, 0);
 
             Console.WriteLine("Inimigos restantes: " + elementsCounter[0]);
@@ -595,12 +596,10 @@
             Console.WriteLine("Obstáculos no mapa: " + elementsCounter[2]);
         }
 
-        private static int ContarItensRecursivo(char[,] map, int linha, int coluna)
+        private static int ContarInimigosRecursivo(char[,] map, int linha, int coluna)
         {
-            //int totalItems = 0;
-            if (map[linha, coluna] == 'I') elementsCounter[1]++;
 
-            if (coluna < map.GetLength(1))
+            if (coluna < map.GetLength(1) - 1)
             {
                 coluna++;
             }
@@ -611,9 +610,42 @@
             }
 
 
-            if (linha >= map.GetLength(0) || coluna >= map.GetLength(1))
+            if (linha >= map.GetLength(0))
+            {
+                return elementsCounter[0];
+            }
+            else if (map[linha, coluna] == 'E')
+            {
+                return 1 + ContarInimigosRecursivo(map, linha, coluna);
+            }
+            else
+            {
+                return ContarInimigosRecursivo(map, linha, coluna);
+            }
+
+        }
+
+        private static int ContarItensRecursivo(char[,] map, int linha, int coluna)
+        {
+            
+            if (coluna < map.GetLength(1) - 1)
+            {
+                coluna++;
+            }
+            else
+            {
+                linha++;
+                coluna = 0;
+            }
+
+
+            if (linha >= map.GetLength(0))
             {
                 return elementsCounter[1];
+            }
+            else if (map[linha, coluna] == 'I')
+            {
+                return 1 + ContarItensRecursivo(map, linha, coluna);
             }
             else
             {
@@ -668,6 +700,27 @@
         }
 
         #endregion
+
+        private static void PontuacaoTotal()
+        {
+            
+            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe);
+            Console.WriteLine("Pontuação total: " + x);
+        }
+
+        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints, 
+            int players)
+        {
+            if (players <=0)
+            {
+                return 0;                
+               
+            }
+            else
+            {
+                return totalPlayerPoints[players - 1] + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
+            }                
+        }
 
     }
 }
