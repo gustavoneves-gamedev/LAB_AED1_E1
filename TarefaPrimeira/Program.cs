@@ -704,21 +704,21 @@
         private static void PontuacaoTotal()
         {
             
-            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe);
+            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe-1);
             Console.WriteLine("Pontuação total: " + x);
         }
 
         private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints, 
             int players)
         {
-            if (players <=0)
+            if (players <0)
             {
                 return 0;                
                
             }
             else
             {
-                return totalPlayerPoints[players - 1] + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
+                return totalPlayerPoints[players] + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
             }                
         }
 
