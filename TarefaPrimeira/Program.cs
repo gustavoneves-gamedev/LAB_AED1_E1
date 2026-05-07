@@ -583,14 +583,43 @@
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
                     if (map[i, j] == 'E') elementsCounter[0]++;
-                    else if (map[i, j] == 'I') elementsCounter[1]++;
+                    //else if (map[i, j] == 'I') elementsCounter[1]++;
                     else if (map[i, j] == 'X') elementsCounter[2]++;
                 }
             }
 
+            elementsCounter[1] = ContarItensRecursivo(map, 0, 0);
+
             Console.WriteLine("Inimigos restantes: " + elementsCounter[0]);
             Console.WriteLine("Itens restantes: " + elementsCounter[1]);
             Console.WriteLine("Obstáculos no mapa: " + elementsCounter[2]);
+        }
+
+        private static int ContarItensRecursivo(char[,] map, int linha, int coluna)
+        {
+            //int totalItems = 0;
+            if (map[linha, coluna] == 'I') elementsCounter[1]++;
+
+            if (coluna < map.GetLength(1))
+            {
+                coluna++;
+            }
+            else
+            {
+                linha++;
+                coluna = 0;
+            }
+
+
+            if (linha >= map.GetLength(0) || coluna >= map.GetLength(1))
+            {
+                return elementsCounter[1];
+            }
+            else
+            {
+                return ContarItensRecursivo(map, linha, coluna);
+            }
+            
         }
 
         private static void PercentualExploracao()
