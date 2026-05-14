@@ -790,7 +790,22 @@
 
         private static void DetectarPerigo()
         {
+            int counter = 0;
+            int danger = SomarPerigo(playerLine-1, playerRow-1, counter);
 
+        }
+
+        private static int SomarPerigo(int playerLine, int playerRow, int counter)
+        {
+            if (counter > 2)
+            {
+
+            }
+            
+            
+            
+            
+            return 0;
         }
 
     }
