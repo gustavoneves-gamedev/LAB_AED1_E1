@@ -3,7 +3,7 @@
 
     internal class Program
     {
-        static int option = -1;
+        //static int option = -1;
         static int playersOnServe = 0, activePlayerIndex = -1;
         static Random rb = new Random();
         static int maxPlayers = 4;
@@ -14,18 +14,23 @@
         static int[] playerAttack = new int[maxPlayers];
         static int[] playerDefense = new int[maxPlayers];
         static int[] playerPoints = new int[maxPlayers];
+        static int playerLine = -1;
+        static int playerRow = -1;
 
         //Mapa
         static char[,] map = new char[10, 10];
         static int[,] mapExploration = new int[10, 10];
+        static int[,] mapDanger = new int[12, 12];
         static float maxExploration = 0;
         static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
         static bool wasMapGenerated = false, hasPlayBegun = false;
 
         static void Main(string[] args)
         {
+            string option = "";            
+            bool endGame = false;
 
-            while (option != 0)
+            while (endGame == false)
             {
                 Console.WriteLine("===== DUNGEON EXPLORER =====");
                 Console.WriteLine("1 - Cadastrar jogador");
@@ -36,23 +41,32 @@
                 Console.WriteLine("6 - Mostrar mapa");
                 Console.WriteLine("7 - Movimentar jogador");
                 Console.WriteLine("8 - Exibir Relatório de Exploração");
+                Console.WriteLine("P - Pontuação Total");
+                Console.WriteLine("E - Explorar área recursivamente");
                 Console.WriteLine("0 – Sair");
                 Console.WriteLine("");
                 Console.WriteLine("Selecione a opção desejada");
-                option = int.Parse(Console.ReadLine());
+                option = Console.ReadLine();
+                //if (choice != "P")
+                //{
+                //    option = int.Parse(Console.ReadLine());
+                //}
                 Console.WriteLine("");
 
 
-                if (option == 1) CadastrarJogador(); //Cadastrar Jogadores                
-                else if (option == 2) ListarJogadores();//Listar jogadores                
-                else if (option == 3) BuscarJogador(); //Buscar jogador por ID
-                else if (option == 4) RemoverJogador(); //Remover jogador pelo ID 
-                else if (option == 5) GerandoMapa(); //Gerando Mapa
-                else if (option == 6) MostrarMapa(); //Mostrar Mapa
-                else if (option == 7) MoverJogador(); //Movimentação do Player
-                else if (option == 8) RelatorioExploracao(); //Apresenta relatório de exploração
-                else if (option == 9) SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
-                else if (option != 0)
+                if (option == "1") CadastrarJogador(); //Cadastrar Jogadores                
+                else if (option == "2") ListarJogadores();//Listar jogadores                
+                else if (option == "3") BuscarJogador(); //Buscar jogador por ID
+                else if (option == "4") RemoverJogador(); //Remover jogador pelo ID 
+                else if (option == "5") GerandoMapa(); //Gerando Mapa
+                else if (option == "6") MostrarMapa(); //Mostrar Mapa
+                else if (option == "7") MoverJogador(); //Movimentação do Player
+                else if (option == "8") RelatorioExploracao(); //Apresenta relatório de exploração
+                else if (option == "9") SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
+                else if (option == "P") PontuacaoTotal();
+                else if (option == "E") DetectarPerigo();
+                else if (option == "0") endGame = true;
+                else
                 {
                     Console.WriteLine("OPÇÃO INVÁLIDA!");
                     Console.WriteLine("Selecione a opção desejada");
@@ -235,6 +249,14 @@
             //Gerando o Mapa
             while (!canProcede)
             {
+                for (int i = 0; i < mapDanger.GetLength(0); i++)
+                {
+                    for (int j = 0; j < mapDanger.GetLength(1); j++)
+                    {
+                        mapDanger[i, j] = 0;
+                    }
+                }
+
                 for (int i = 0; i < map.GetLength(0); i++)
                 {
                     for (int j = 0; j < map.GetLength(1); j++)
@@ -248,6 +270,7 @@
                         else if (n <= 2)
                         {
                             map[i, j] = 'E';
+                            mapDanger[i + 1, j + 1] = 1;
                             enemyCounter++;
                         }
                         else if (n >= 3 && n <= 6)
@@ -280,6 +303,8 @@
                         }
                     }
                 }
+
+                
             }
 
             maxExploration = map.Length - obstaclesCounter; //Calcula o valor máximo da exploração
@@ -359,13 +384,21 @@
                     Console.WriteLine();
                     Console.WriteLine();
                 }
+                //for (int i = 0; i < mapDanger.GetLength(0); i++)
+                //{
+                //    for (int j = 0; j < mapDanger.GetLength(1); j++)
+                //    {
+                //        Console.Write(mapDanger[i, j] + " ");
+                //    }
+                //    Console.WriteLine("");
+                //}
             }
             Console.WriteLine("");
         }
 
         private static void MoverJogador()
         {
-            int playerLine = 0, playerRow = 0;
+            //int playerLine = 0, playerRow = 0;
             string moveDirection = "W"; //Usarei para entrar no while ou pulá-lo caso os requisitos não sejam atendidos
 
 
@@ -612,7 +645,7 @@
 
             if (linha >= map.GetLength(0))
             {
-                return elementsCounter[0];
+                return 0;
             }
             else if (map[linha, coluna] == 'E')
             {
@@ -627,7 +660,7 @@
 
         private static int ContarItensRecursivo(char[,] map, int linha, int coluna)
         {
-            
+
             if (coluna < map.GetLength(1) - 1)
             {
                 coluna++;
@@ -641,7 +674,7 @@
 
             if (linha >= map.GetLength(0))
             {
-                return elementsCounter[1];
+                return 0;
             }
             else if (map[linha, coluna] == 'I')
             {
@@ -651,7 +684,7 @@
             {
                 return ContarItensRecursivo(map, linha, coluna);
             }
-            
+
         }
 
         private static void PercentualExploracao()
@@ -701,25 +734,63 @@
 
         #endregion
 
+        #region Total Points
         private static void PontuacaoTotal()
         {
-            
-            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe-1);
+
+            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe - 1);
             Console.WriteLine("Pontuação total: " + x);
+            Console.WriteLine();
         }
 
-        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints, 
+        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints,
             int players)
         {
-            if (players <0)
+            if (players < 0)
             {
-                return 0;                
-               
+                return 0;
+
             }
             else
             {
                 return totalPlayerPoints[players] + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
-            }                
+            }
+        }
+
+        #endregion
+
+        private static int ContarPerigoArredores(char[,] map, int linha, int coluna)
+        {
+
+            if (coluna < map.GetLength(1) - 1)
+            {
+                coluna++;
+            }
+            else
+            {
+                linha++;
+                coluna = 0;
+            }
+
+
+            if (linha >= map.GetLength(0))
+            {
+                return 0;
+            }
+            else if (map[linha, coluna] == 'I')
+            {
+                return 1 + ContarPerigoArredores(map, linha, coluna);
+            }
+            else
+            {
+                return ContarPerigoArredores(map, linha, coluna);
+            }
+
+        }
+
+        private static void DetectarPerigo()
+        {
+
         }
 
     }
