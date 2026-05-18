@@ -20,7 +20,7 @@
         //Mapa
         static char[,] map = new char[10, 10];
         static int[,] mapExploration = new int[10, 10];
-        static int[,] mapDanger = new int[12, 12];
+        static int[,] mapCodeExploration = new int[12, 12];
         static float maxExploration = 0;
         static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
         static bool wasMapGenerated = false, hasPlayBegun = false;
@@ -64,7 +64,7 @@
                 else if (option == "8") RelatorioExploracao(); //Apresenta relatório de exploração
                 else if (option == "9") SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
                 else if (option == "P") PontuacaoTotal();
-                else if (option == "E") DetectarPerigo();
+                else if (option == "E") DetectarAreaExploravel();
                 else if (option == "0") endGame = true;
                 else
                 {
@@ -249,11 +249,11 @@
             //Gerando o Mapa
             while (!canProcede)
             {
-                for (int i = 0; i < mapDanger.GetLength(0); i++)
+                for (int i = 0; i < mapCodeExploration.GetLength(0); i++)
                 {
-                    for (int j = 0; j < mapDanger.GetLength(1); j++)
+                    for (int j = 0; j < mapCodeExploration.GetLength(1); j++)
                     {
-                        mapDanger[i, j] = 0;
+                        mapCodeExploration[i, j] = 1;
                     }
                 }
 
@@ -266,22 +266,26 @@
                         if (n >= 11)
                         {
                             map[i, j] = '.';
+                            mapCodeExploration[i + 1, j + 1] = 0;
                         }
                         else if (n <= 2)
                         {
                             map[i, j] = 'E';
-                            mapDanger[i + 1, j + 1] = 1;
+
                             enemyCounter++;
+                            mapCodeExploration[i + 1, j + 1] = 0;
                         }
                         else if (n >= 3 && n <= 6)
                         {
                             map[i, j] = 'I';
                             itemCounter++;
+                            mapCodeExploration[i + 1, j + 1] = 0;
                         }
                         else
                         {
                             map[i, j] = 'X';
                             obstaclesCounter++;
+
 
                         }
 
@@ -331,6 +335,8 @@
                 {
                     map[(x - 1), (y - 1)] = 'P';
                     mapExploration[(x - 1), (y - 1)] = 1;
+                    playerLine = x - 1;
+                    playerRow = y - 1;
                     canProcede = true;
                 }
             }
@@ -384,11 +390,11 @@
                     Console.WriteLine();
                     Console.WriteLine();
                 }
-                for (int i = 0; i < mapDanger.GetLength(0); i++)
+                for (int i = 0; i < mapCodeExploration.GetLength(0); i++)
                 {
-                    for (int j = 0; j < mapDanger.GetLength(1); j++)
+                    for (int j = 0; j < mapCodeExploration.GetLength(1); j++)
                     {
-                        Console.Write(mapDanger[i, j] + " ");
+                        Console.Write(mapCodeExploration[i, j] + " ");
                     }
                     Console.WriteLine("");
                 }
@@ -424,6 +430,7 @@
                         playerLine = i;
                         playerRow = j;
                         mapExploration[i, j] = 1;
+                        //mapCodeExploration[i + 1, j + 1] = 1;
                     }
                 }
             }
@@ -458,9 +465,11 @@
                             }
 
                             map[playerLine, playerRow] = '.';
+                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
                             map[playerLine - 1, playerRow] = 'P';
                             mapExploration[playerLine - 1, playerRow] = 1;
                             playerLine--;
+
                         }
                         else
                         {
@@ -492,9 +501,11 @@
                             }
 
                             map[playerLine, playerRow] = '.';
+                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
                             map[playerLine + 1, playerRow] = 'P';
                             mapExploration[playerLine + 1, playerRow] = 1;
                             playerLine++;
+
                         }
                         else
                         {
@@ -526,9 +537,11 @@
                             }
 
                             map[playerLine, playerRow] = '.';
+                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
                             map[playerLine, playerRow - 1] = 'P';
                             mapExploration[playerLine, playerRow - 1] = 1;
                             playerRow--;
+
                         }
                         else
                         {
@@ -560,9 +573,11 @@
                             }
 
                             map[playerLine, playerRow] = '.';
+                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
                             map[playerLine, playerRow + 1] = 'P';
                             mapExploration[playerLine, playerRow + 1] = 1;
                             playerRow++;
+
                         }
                         else
                         {
@@ -577,7 +592,6 @@
 
                 MostrarMapa();
             }
-
 
             Console.WriteLine("");
         }
@@ -788,37 +802,50 @@
 
         }
 
-        private static void DetectarPerigo()
+        private static void DetectarAreaExploravel()
         {
-            int counter = 0;
-            int danger = SomarPerigo(playerLine - 1, playerRow - 1, counter);
-            Console.WriteLine("Nível de perigo = " + danger);
+
+            int[,] tempMap = new int[12, 12];
+
+            for (int i = 0; i < tempMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < tempMap.GetLength(1); j++)
+                {
+                    //int x = mapCodeExploration[i, j];
+                    tempMap[i, j] = mapCodeExploration[i, j];
+                    Console.Write(tempMap[i, j] + " ");
+                }
+                Console.WriteLine("");
+            }
+
+            int counter = AreaExploravel(playerLine+1, playerRow+1, tempMap);
+            Console.WriteLine("Explorável: " + (counter - 1));
 
         }
 
-        private static int SomarPerigo(int playerL, int playerR, int counter)
+        private static int AreaExploravel(int playerL, int playerR, int[,] map)
         {
-            if (counter > 2)
-            {
-                playerL += (counter-2);
-            }
-            else
-            {
-                playerR += counter;
-            }
 
-            counter++;
+            Console.WriteLine("Linha: " + playerL);
+            Console.WriteLine("Coluna: " + playerR);
+            Console.WriteLine();
 
-            if (counter > 5)
+            if (map[playerL, playerR] == 1)
             {
-                counter = 0;
+                Console.WriteLine("FUI CHAMADO");
                 return 0;
             }
             else
             {
-                return mapDanger[playerL, playerR] + SomarPerigo(playerL, playerR, counter);
-            }            
-            
+                map[playerL, playerR] = 1;
+
+                return 1 + AreaExploravel(playerL, playerR - 1, map) +
+                   AreaExploravel(playerL, playerR + 1, map) +
+                   AreaExploravel(playerL + 1, playerR, map) +
+                   AreaExploravel(playerL - 1, playerR, map);
+            }
+
+
         }
 
     }
