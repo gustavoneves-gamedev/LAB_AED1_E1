@@ -27,7 +27,7 @@
 
         static void Main(string[] args)
         {
-            string option = "";            
+            string option = "";
             bool endGame = false;
 
             while (endGame == false)
@@ -304,7 +304,7 @@
                     }
                 }
 
-                
+
             }
 
             maxExploration = map.Length - obstaclesCounter; //Calcula o valor máximo da exploração
@@ -384,14 +384,14 @@
                     Console.WriteLine();
                     Console.WriteLine();
                 }
-                //for (int i = 0; i < mapDanger.GetLength(0); i++)
-                //{
-                //    for (int j = 0; j < mapDanger.GetLength(1); j++)
-                //    {
-                //        Console.Write(mapDanger[i, j] + " ");
-                //    }
-                //    Console.WriteLine("");
-                //}
+                for (int i = 0; i < mapDanger.GetLength(0); i++)
+                {
+                    for (int j = 0; j < mapDanger.GetLength(1); j++)
+                    {
+                        Console.Write(mapDanger[i, j] + " ");
+                    }
+                    Console.WriteLine("");
+                }
             }
             Console.WriteLine("");
         }
@@ -791,21 +791,34 @@
         private static void DetectarPerigo()
         {
             int counter = 0;
-            int danger = SomarPerigo(playerLine-1, playerRow-1, counter);
+            int danger = SomarPerigo(playerLine - 1, playerRow - 1, counter);
+            Console.WriteLine("Nível de perigo = " + danger);
 
         }
 
-        private static int SomarPerigo(int playerLine, int playerRow, int counter)
+        private static int SomarPerigo(int playerL, int playerR, int counter)
         {
             if (counter > 2)
             {
-
+                playerL += (counter-2);
             }
+            else
+            {
+                playerR += counter;
+            }
+
+            counter++;
+
+            if (counter > 5)
+            {
+                counter = 0;
+                return 0;
+            }
+            else
+            {
+                return mapDanger[playerL, playerR] + SomarPerigo(playerL, playerR, counter);
+            }            
             
-            
-            
-            
-            return 0;
         }
 
     }
