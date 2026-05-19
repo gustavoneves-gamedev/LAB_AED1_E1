@@ -1,4 +1,4 @@
-# LAB_AED1_E3
+# LAB_AED1_E5
 
 ## Disciplina
 Algoritmos e Estruturas de Dados I – Laboratório
@@ -7,22 +7,32 @@ Algoritmos e Estruturas de Dados I – Laboratório
 Jogos Digitais – PUC Minas Lourdes
 
 ## Etapa
-Entrega 3 – Funções e movimentação do jogador
+Entrega 5 – Recursividade
 
 ## Descrição
 Este projeto consiste em uma aplicação console em C# do sistema **Dungeon Explorer**.
 
-Nesta etapa, o sistema foi evoluído com a implementação de um **relatório de exploração**, permitindo analisar o estado atual da masmorra e do jogador.
+Nesta etapa, o sistema foi evoluído com a implementação de funções recursivas para análise da masmorra, exploração de área e cálculo da pontuação total dos jogadores.
 
-A nova funcionalidade permite verificar:
+O sistema mantém as funcionalidades das etapas anteriores:
 
-- inimigos restantes
-- itens restantes
-- obstáculos presentes no mapa
-- percentual de exploração da masmorra
-- situação da vida do jogador
-- situação do desempenho do jogador
+- cadastro de jogadores
+- listagem de jogadores
+- busca de jogador por ID
+- remoção de jogador
+- geração do mapa da masmorra
+- exibição do mapa
+- movimentação do jogador
+- relatório de exploração
 
+Nesta entrega, foram adicionadas ou atualizadas as seguintes funcionalidades:
+
+- contagem recursiva de inimigos
+- contagem recursiva de itens
+- exploração recursiva da área acessível a partir da posição do jogador
+- soma recursiva da pontuação total dos jogadores
+
+---
 
 ## Movimentação
 Controles:
@@ -75,6 +85,9 @@ O programa apresenta o seguinte menu:
 - `5` - Gerar mapa da masmorra
 - `6` - Mostrar mapa
 - `7` - Movimentar jogador
+- `8` - Exibir Relatorio de Exploracao
+- `9` - Explorar area recursivamente
+- `10` - Pontuacao Total
 - `0` - Sair
 
 ## Observações sobre a implementação
