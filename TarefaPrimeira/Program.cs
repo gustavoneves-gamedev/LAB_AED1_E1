@@ -41,8 +41,8 @@
                 Console.WriteLine("6 - Mostrar mapa");
                 Console.WriteLine("7 - Movimentar jogador");
                 Console.WriteLine("8 - Exibir Relatório de Exploração");
-                Console.WriteLine("P - Pontuação Total");
-                Console.WriteLine("E - Explorar área recursivamente");
+                Console.WriteLine("9 - Explorar área recursivamente");
+                Console.WriteLine("10 - Pontuação Total");
                 Console.WriteLine("0 – Sair");
                 Console.WriteLine("");
                 Console.WriteLine("Selecione a opção desejada");
@@ -62,9 +62,9 @@
                 else if (option == "6") MostrarMapa(); //Mostrar Mapa
                 else if (option == "7") MoverJogador(); //Movimentação do Player
                 else if (option == "8") RelatorioExploracao(); //Apresenta relatório de exploração
-                else if (option == "9") SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
-                else if (option == "P") PontuacaoTotal();
-                else if (option == "E") DetectarAreaExploravel();
+                else if (option == "X") SecretReport(); //Função para testes, deixarei aqui para as entregas futuras
+                else if (option == "9") ExplorarRecursivamente();
+                else if (option == "10") PontuacaoTotal();
                 else if (option == "0") endGame = true;
                 else
                 {
@@ -390,14 +390,14 @@
                     Console.WriteLine();
                     Console.WriteLine();
                 }
-                for (int i = 0; i < mapCodeExploration.GetLength(0); i++)
-                {
-                    for (int j = 0; j < mapCodeExploration.GetLength(1); j++)
-                    {
-                        Console.Write(mapCodeExploration[i, j] + " ");
-                    }
-                    Console.WriteLine("");
-                }
+                //for (int i = 0; i < mapCodeExploration.GetLength(0); i++)
+                //{
+                //    for (int j = 0; j < mapCodeExploration.GetLength(1); j++)
+                //    {
+                //        Console.Write(mapCodeExploration[i, j] + " ");
+                //    }
+                //    Console.WriteLine("");
+                //}
             }
             Console.WriteLine("");
         }
@@ -757,8 +757,7 @@
             Console.WriteLine();
         }
 
-        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints,
-            int players)
+        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints, int players)
         {
             if (players < 0)
             {
@@ -773,36 +772,36 @@
 
         #endregion
 
-        private static int ContarPerigoArredores(char[,] map, int linha, int coluna)
-        {
+        //private static int ContarPerigoArredores(char[,] map, int linha, int coluna)
+        //{
 
-            if (coluna < map.GetLength(1) - 1)
-            {
-                coluna++;
-            }
-            else
-            {
-                linha++;
-                coluna = 0;
-            }
+        //    if (coluna < map.GetLength(1) - 1)
+        //    {
+        //        coluna++;
+        //    }
+        //    else
+        //    {
+        //        linha++;
+        //        coluna = 0;
+        //    }
 
 
-            if (linha >= map.GetLength(0))
-            {
-                return 0;
-            }
-            else if (map[linha, coluna] == 'I')
-            {
-                return 1 + ContarPerigoArredores(map, linha, coluna);
-            }
-            else
-            {
-                return ContarPerigoArredores(map, linha, coluna);
-            }
+        //    if (linha >= map.GetLength(0))
+        //    {
+        //        return 0;
+        //    }
+        //    else if (map[linha, coluna] == 'I')
+        //    {
+        //        return 1 + ContarPerigoArredores(map, linha, coluna);
+        //    }
+        //    else
+        //    {
+        //        return ContarPerigoArredores(map, linha, coluna);
+        //    }
 
-        }
+        //}
 
-        private static void DetectarAreaExploravel()
+        private static void ExplorarRecursivamente()
         {
 
             int[,] tempMap = new int[12, 12];
@@ -812,27 +811,25 @@
                 for (int j = 0; j < tempMap.GetLength(1); j++)
                 {
                     //int x = mapCodeExploration[i, j];
-                    tempMap[i, j] = mapCodeExploration[i, j];
-                    Console.Write(tempMap[i, j] + " ");
-                }
-                Console.WriteLine("");
+                    tempMap[i, j] = mapCodeExploration[i, j];                   
+                }                
             }
 
-            int counter = AreaExploravel(playerLine+1, playerRow+1, tempMap);
-            Console.WriteLine("Explorável: " + (counter - 1));
+            int counter = AreaExploravel(playerLine + 1, playerRow + 1, tempMap);
+            Console.WriteLine();
+            Console.WriteLine("===== EXPLORAÇÃO RECURSIVA DA ÁREA =====");
+            Console.WriteLine("Posição inicial: " + "[" + (playerLine+1) + "]" + "[" + (playerRow+1) + "]");
+            Console.WriteLine("Células alcançadas a partir da posição: " + (counter - 1));
+            Console.WriteLine();
 
         }
 
         private static int AreaExploravel(int playerL, int playerR, int[,] map)
         {
 
-            Console.WriteLine("Linha: " + playerL);
-            Console.WriteLine("Coluna: " + playerR);
-            Console.WriteLine();
-
+           
             if (map[playerL, playerR] == 1)
             {
-                Console.WriteLine("FUI CHAMADO");
                 return 0;
             }
             else
