@@ -8,6 +8,8 @@
         static Random rb = new Random();
         static int maxPlayers = 4;
 
+        static Player[] players = new Player[maxPlayers];
+
         static int[] idPlayer = new int[maxPlayers];
         static string[] playerNames = new string[maxPlayers];
         static int[] playerLife = new int[maxPlayers];
@@ -97,7 +99,7 @@
                 for (int i = 0; i < maxPlayers; i++)
                 {
 
-                    if (idCheck == idPlayer[i])
+                    if (idCheck == players[i]._ID)
                     {
                         i = -1;
                         Console.WriteLine("ID em uso! Digite um novo ID");
@@ -107,22 +109,22 @@
 
                 index = playersOnServe;
 
-                idPlayer[index] = idCheck;
-
                 Console.WriteLine("Digite o nome do Personagem");
-                playerNames[index] = Console.ReadLine();
+                string name = Console.ReadLine();
 
                 Console.WriteLine("Digite a Vida do Personagem");
                 //playerLife[index] = int.Parse(Console.ReadLine());
-                playerLife[index] = rb.Next(1, 101);
+                int life = rb.Next(1, 101);
 
                 Console.WriteLine("Digite o Ataque do Personagem");
                 //playerAttack[index] = int.Parse(Console.ReadLine());
-                playerAttack[index] = rb.Next(1, 11);
+                int attack = rb.Next(1, 11);
 
                 Console.WriteLine("Digite o Defesa do Personagem");
                 //playerDefense[index] = int.Parse(Console.ReadLine());
-                playerDefense[index] = rb.Next(1, 11);
+                int defense = rb.Next(1, 11);
+
+                players[index] = new Player(idCheck, name, life, attack, defense);
 
                 Console.WriteLine("");
 
@@ -136,12 +138,7 @@
             {
                 Console.WriteLine("===== Jogador " + (1 + i) + " =====");
                 Console.WriteLine("");
-                Console.WriteLine("ID: " + idPlayer[i]);
-                Console.WriteLine("Nome: " + playerNames[i]);
-                Console.WriteLine("Vida: " + playerLife[i]);
-                Console.WriteLine("Ataque: " + playerAttack[i]);
-                Console.WriteLine("Defesa: " + playerDefense[i]);
-                Console.WriteLine("Pontos: " + playerPoints[i]);
+                players[i].ExibirDados();
                 Console.WriteLine("");
             }
 
