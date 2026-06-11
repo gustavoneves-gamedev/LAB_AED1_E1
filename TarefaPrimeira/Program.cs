@@ -8,7 +8,7 @@
         static Random rb = new Random();
         static int maxPlayers = 4;
 
-        static Player[] players = new Player[maxPlayers]; 
+        static Player[] players = new Player[maxPlayers];
         static int playerLine = -1;
         static int playerRow = -1;
 
@@ -103,7 +103,7 @@
                             Console.WriteLine("ID em uso! Digite um novo ID");
                             idCheck = int.Parse(Console.ReadLine());
                         }
-                    }  
+                    }
                 }
 
                 index = playersOnServe;
@@ -237,7 +237,7 @@
 
         private static void GerandoMapa()
         {
-            
+
             mapa.GenerateElements();
             if (activePlayerIndex != -1) hasPlayBegun = true;
 
@@ -246,57 +246,8 @@
 
         private static void MostrarMapa()
         {
-            if (wasMapGenerated == false)
-            {
-                Console.WriteLine("O mapa ainda não foi gerado!");
-                Console.WriteLine("Por favor, gere o mapa primeiro");
-            }
-            else
-            {
-                for (int i = 0; i < map.GetLength(0); i++)
-                {
-                    for (int j = 0; j < map.GetLength(1); j++)
-                    {
-                        if (i == 0 && j == 0)
-                        {
-                            for (int k = 0; k < map.GetLength(1); k++)
-                            {
-                                if (k == 0) Console.Write("    " + (k + 1));
-                                else if (k == (map.GetLength(1) - 1)) Console.Write("  " + (k + 1));
-                                else Console.Write("   " + (k + 1));
-                            }
+            mapa.MostrarMapa();
 
-                            Console.WriteLine();
-                            Console.WriteLine();
-                        }
-
-                        if (j == 0 && i != (map.GetLength(0) - 1))
-                        {
-                            Console.Write((i + 1) + "   " + map[i, j] + "  ");
-                        }
-                        else if (i == (map.GetLength(0) - 1) && j == 0)
-                        {
-                            Console.Write((i + 1) + "  " + map[i, j] + "  ");
-                        }
-                        else
-                        {
-                            Console.Write(" " + map[i, j] + "  ");
-                        }
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine();
-                }
-                //for (int i = 0; i < mapCodeExploration.GetLength(0); i++)
-                //{
-                //    for (int j = 0; j < mapCodeExploration.GetLength(1); j++)
-                //    {
-                //        Console.Write(mapCodeExploration[i, j] + " ");
-                //    }
-                //    Console.WriteLine("");
-                //}
-            }
-            Console.WriteLine("");
         }
 
         private static void MoverJogador()
@@ -307,7 +258,7 @@
 
             MostrarMapa();
 
-            if (!wasMapGenerated)
+            if (!mapa._WasMapGenerated)
             {
                 moveDirection = "NoMap";
 
@@ -318,15 +269,17 @@
                 moveDirection = "ESC";
             }
 
-            for (int i = 0; i < map.GetLength(0); i++)
+            //mapa.DetectPlayer();
+
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < map.GetLength(1); j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    if (map[i, j] == 'P')
+                    if (mapa.ShowElement(i, j) == 'P')
                     {
                         playerLine = i;
                         playerRow = j;
-                        mapExploration[i, j] = 1;
+                        mapa.DefineMapExplorationElement(i, j, 1);
                         //mapCodeExploration[i + 1, j + 1] = 1;
                     }
                 }
@@ -346,25 +299,25 @@
                 {
                     if (playerLine - 1 >= 0)
                     {
-                        if (map[playerLine - 1, playerRow] != 'X')
+                        if (mapa.ShowElement(playerLine - 1, playerRow) != 'X')
                         {
-                            if (map[playerLine - 1, playerRow] == 'I')
+                            if (mapa.ShowElement(playerLine - 1, playerRow) == 'I')
                             {
-                                players[activePlayerIndex]._Points = itemsMap[playerLine - 1, playerRow]._Points;
-                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine - 1, playerRow]._Points +" pts)");
+                                players[activePlayerIndex]._Points = mapa.ItemPoints(playerLine - 1, playerRow);
+                                Console.WriteLine("Peguei um item! (+" + mapa.ItemPoints(playerLine - 1, playerRow) + " pts)");
                                 Console.WriteLine();
                             }
-                            else if (map[playerLine - 1, playerRow] == 'E')
+                            else if (mapa.ShowElement(playerLine - 1, playerRow) == 'E')
                             {
-                                players[activePlayerIndex]._Points = enemiesMap[playerLine - 1, playerRow]._Points;
-                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine - 1, playerRow]._Points + " pts)");
+                                players[activePlayerIndex]._Points = mapa.EnemyPoints(playerLine - 1, playerRow);
+                                Console.WriteLine("Matei um inimigo! (+" + mapa.EnemyPoints(playerLine - 1, playerRow) + " pts)");
                                 Console.WriteLine();
                             }
 
-                            map[playerLine, playerRow] = '.';
-                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
-                            map[playerLine - 1, playerRow] = 'P';
-                            mapExploration[playerLine - 1, playerRow] = 1;
+                            mapa.DefineElement(playerLine, playerRow, '.');
+                            mapa.DefineMapCodeExplorationElement(playerLine + 1, playerRow + 1, 1);
+                            mapa.DefineElement(playerLine - 1, playerRow, 'P');
+                            mapa.DefineMapExplorationElement(playerLine - 1, playerRow, 1);
                             playerLine--;
 
                         }
@@ -380,27 +333,27 @@
                 }
                 else if (moveDirection == "S" || moveDirection == "s")
                 {
-                    if (playerLine + 1 < map.GetLength(0))
+                    if (playerLine + 1 < 10)
                     {
-                        if (map[playerLine + 1, playerRow] != 'X')
+                        if (mapa.ShowElement(playerLine + 1, playerRow) != 'X')
                         {
-                            if (map[playerLine + 1, playerRow] == 'I')
+                            if (mapa.ShowElement(playerLine + 1, playerRow) == 'I')
                             {
-                                players[activePlayerIndex]._Points = itemsMap[playerLine + 1, playerRow]._Points;
-                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine + 1, playerRow]._Points +"pts)");
+                                players[activePlayerIndex]._Points = mapa.ItemPoints(playerLine + 1, playerRow);
+                                Console.WriteLine("Peguei um item! (+" + mapa.ItemPoints(playerLine + 1, playerRow) + "pts)");
                                 Console.WriteLine();
                             }
-                            else if (map[playerLine + 1, playerRow] == 'E')
+                            else if (mapa.ShowElement(playerLine + 1, playerRow) == 'E')
                             {
-                                players[activePlayerIndex]._Points = enemiesMap[playerLine + 1, playerRow]._Points;
-                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine + 1, playerRow]._Points + " pts)");
+                                players[activePlayerIndex]._Points = mapa.EnemyPoints(playerLine + 1, playerRow);
+                                Console.WriteLine("Matei um inimigo! (+" + mapa.EnemyPoints(playerLine + 1, playerRow) + " pts)");
                                 Console.WriteLine();
                             }
 
-                            map[playerLine, playerRow] = '.';
-                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
-                            map[playerLine + 1, playerRow] = 'P';
-                            mapExploration[playerLine + 1, playerRow] = 1;
+                            mapa.DefineElement(playerLine, playerRow, '.');
+                            mapa.DefineMapCodeExplorationElement(playerLine + 1, playerRow + 1, 1);
+                            mapa.DefineElement(playerLine + 1, playerRow, 'P');
+                            mapa.DefineMapExplorationElement(playerLine + 1, playerRow, 1);
                             playerLine++;
 
                         }
@@ -418,25 +371,25 @@
                 {
                     if (playerRow - 1 >= 0)
                     {
-                        if (map[playerLine, playerRow - 1] != 'X')
+                        if (mapa.ShowElement(playerLine, playerRow - 1) != 'X')
                         {
-                            if (map[playerLine, playerRow - 1] == 'I')
+                            if (mapa.ShowElement(playerLine, playerRow - 1) == 'I')
                             {
-                                players[activePlayerIndex]._Points = itemsMap[playerLine, playerRow - 1]._Points; ;
-                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine, playerRow - 1]._Points + "pts)");
+                                players[activePlayerIndex]._Points = mapa.ItemPoints(playerLine, playerRow - 1);
+                                Console.WriteLine("Peguei um item! (+" + mapa.ItemPoints(playerLine, playerRow - 1) + "pts)");
                                 Console.WriteLine();
                             }
-                            else if (map[playerLine, playerRow - 1] == 'E')
+                            else if (mapa.ShowElement(playerLine, playerRow - 1) == 'E')
                             {
-                                players[activePlayerIndex]._Points = enemiesMap[playerLine, playerRow - 1]._Points;
-                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine, playerRow - 1]._Points + " pts)");
+                                players[activePlayerIndex]._Points = mapa.EnemyPoints(playerLine, playerRow - 1);
+                                Console.WriteLine("Matei um inimigo! (+" + mapa.EnemyPoints(playerLine, playerRow - 1) + " pts)");
                                 Console.WriteLine();
                             }
 
-                            map[playerLine, playerRow] = '.';
-                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
-                            map[playerLine, playerRow - 1] = 'P';
-                            mapExploration[playerLine, playerRow - 1] = 1;
+                            mapa.DefineElement(playerLine, playerRow, '.');
+                            mapa.DefineMapCodeExplorationElement(playerLine + 1, playerRow + 1, 1);
+                            mapa.DefineElement(playerLine, playerRow - 1, 'P');
+                            mapa.DefineMapExplorationElement(playerLine, playerRow - 1, 1);
                             playerRow--;
 
                         }
@@ -452,27 +405,27 @@
                 }
                 else if (moveDirection == "D" || moveDirection == "d")
                 {
-                    if (playerRow + 1 < map.GetLength(1))
+                    if (playerRow + 1 < 10)
                     {
-                        if (map[playerLine, playerRow + 1] != 'X')
+                        if (mapa.ShowElement(playerLine, playerRow + 1) != 'X')
                         {
-                            if (map[playerLine, playerRow + 1] == 'I')
+                            if (mapa.ShowElement(playerLine, playerRow + 1) == 'I')
                             {
-                                players[activePlayerIndex]._Points = itemsMap[playerLine, playerRow + 1]._Points;
-                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine, playerRow + 1]._Points + "pts)");
+                                players[activePlayerIndex]._Points = mapa.ItemPoints(playerLine, playerRow + 1);
+                                Console.WriteLine("Peguei um item! (+" + mapa.ItemPoints(playerLine, playerRow + 1) + "pts)");
                                 Console.WriteLine();
                             }
-                            else if (map[playerLine, playerRow + 1] == 'E')
+                            else if (mapa.ShowElement(playerLine, playerRow + 1) == 'E')
                             {
-                                players[activePlayerIndex]._Points = enemiesMap[playerLine, playerRow + 1]._Points;
-                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine, playerRow + 1]._Points + " pts)");
+                                players[activePlayerIndex]._Points = mapa.EnemyPoints(playerLine, playerRow + 1);
+                                Console.WriteLine("Matei um inimigo! (+" + mapa.EnemyPoints(playerLine, playerRow + 1) + " pts)");
                                 Console.WriteLine();
                             }
 
-                            map[playerLine, playerRow] = '.';
-                            mapCodeExploration[playerLine + 1, playerRow + 1] = 1;
-                            map[playerLine, playerRow + 1] = 'P';
-                            mapExploration[playerLine, playerRow + 1] = 1;
+                            mapa.DefineElement(playerLine, playerRow, '.');
+                            mapa.DefineMapCodeExplorationElement(playerLine + 1, playerRow + 1, 1);
+                            mapa.DefineElement(playerLine, playerRow + 1, 'P');
+                            mapa.DefineMapExplorationElement(playerLine, playerRow + 1, 1);
                             playerRow++;
 
                         }

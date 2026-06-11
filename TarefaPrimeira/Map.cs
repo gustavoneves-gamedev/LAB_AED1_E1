@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TarefaPrimeira
+﻿namespace TarefaPrimeira
 {
     internal class Map
     {
@@ -32,11 +26,46 @@ namespace TarefaPrimeira
             map = new char[linhas, colunas];
             Initialize();
         }
-        
-        public void DefinirCelular(int line, int row, char value)
+
+        public bool _WasMapGenerated
+        {
+            get { return wasMapGenerated; }
+            set { wasMapGenerated = value; }
+        }
+
+        #region Map Manipulation
+
+        public void DefineElement(int line, int row, char value)
         {
             map[line, row] = value;
         }
+
+        public void DefineMapCodeExplorationElement(int line, int row, int value)
+        {
+            mapCodeExploration[line, row] = value;
+        }
+
+        public void DefineMapExplorationElement(int line, int row, int value)
+        {
+            mapExploration[line, row] = value;
+        }
+
+        public char ShowElement(int line, int row)
+        {
+            return map[line, row];
+        }
+
+        public int ItemPoints(int line, int row)
+        {
+            return itemsMap[line, row]._Points;
+        }
+
+        public int EnemyPoints(int line, int row)
+        {
+            return enemiesMap[line, row]._Points;
+        }
+
+        #endregion
 
         private void Initialize()
         {
@@ -156,7 +185,7 @@ namespace TarefaPrimeira
                     }
                 }
 
-                
+
                 MostrarMapa();
 
                 Console.WriteLine();
@@ -218,5 +247,22 @@ namespace TarefaPrimeira
             }
             Console.WriteLine("");
         }
+
+        //public void DetectPlayer()
+        //{
+        //    for (int i = 0; i < map.GetLength(0); i++)
+        //    {
+        //        for (int j = 0; j < map.GetLength(1); j++)
+        //        {
+        //            if (map[i, j] == 'P')
+        //            {
+        //                playerLine = i;
+        //                playerRow = j;
+        //                mapExploration[i, j] = 1;
+        //                //mapCodeExploration[i + 1, j + 1] = 1;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
