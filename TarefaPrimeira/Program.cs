@@ -98,13 +98,15 @@
 
                 for (int i = 0; i < maxPlayers; i++)
                 {
-
-                    if (idCheck == players[i]._ID)
+                    if (players[i] != null)
                     {
-                        i = -1;
-                        Console.WriteLine("ID em uso! Digite um novo ID");
-                        idCheck = int.Parse(Console.ReadLine());
-                    }
+                        if (idCheck == players[i]._ID)
+                        {
+                            i = -1;
+                            Console.WriteLine("ID em uso! Digite um novo ID");
+                            idCheck = int.Parse(Console.ReadLine());
+                        }
+                    }  
                 }
 
                 index = playersOnServe;
@@ -208,7 +210,7 @@
                     if ((i + 1) < playersOnServe)
                     {
                         players[i] = players[i + 1];
-                        
+
                         //idPlayer[i] = idPlayer[i + 1];
                         //playerNames[i] = playerNames[i + 1];
                         //playerLife[i] = playerLife[i + 1];
@@ -808,14 +810,14 @@
                 for (int j = 0; j < tempMap.GetLength(1); j++)
                 {
                     //int x = mapCodeExploration[i, j];
-                    tempMap[i, j] = mapCodeExploration[i, j];                   
-                }                
+                    tempMap[i, j] = mapCodeExploration[i, j];
+                }
             }
 
             int counter = AreaExploravel(playerLine + 1, playerRow + 1, tempMap);
             Console.WriteLine();
             Console.WriteLine("===== EXPLORAÇÃO RECURSIVA DA ÁREA =====");
-            Console.WriteLine("Posição inicial: " + "[" + (playerLine+1) + "]" + "[" + (playerRow+1) + "]");
+            Console.WriteLine("Posição inicial: " + "[" + (playerLine + 1) + "]" + "[" + (playerRow + 1) + "]");
             Console.WriteLine("Células alcançadas a partir da posição: " + (counter - 1));
             Console.WriteLine();
 
@@ -824,7 +826,7 @@
         private static int AreaExploravel(int playerL, int playerR, int[,] map)
         {
 
-           
+
             if (map[playerL, playerR] == 1)
             {
                 return 0;
