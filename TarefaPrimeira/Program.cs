@@ -159,16 +159,11 @@
 
             for (int i = 0; i < playersOnServe; i++)
             {
-                if (idPlayer[i] == searchID)
+                if (players[i]._ID == searchID)
                 {
                     Console.WriteLine("===== Jogador " + (i + 1) + " =====");
                     Console.WriteLine("");
-                    Console.WriteLine("ID: " + idPlayer[i]);
-                    Console.WriteLine("Nome: " + playerNames[i]);
-                    Console.WriteLine("Vida: " + playerLife[i]);
-                    Console.WriteLine("Ataque: " + playerAttack[i]);
-                    Console.WriteLine("Defesa: " + playerDefense[i]);
-                    Console.WriteLine("Pontos: " + playerPoints[i]);
+                    players[i].ExibirDados();
                     Console.WriteLine("");
                     hasFound = true;
                     activePlayerIndex = i;
@@ -194,7 +189,7 @@
 
             for (int i = 0; i < playersOnServe; i++)
             {
-                if (idPlayer[i] == searchID)
+                if (players[i]._ID == searchID)
                 {
                     hasFound = true;
                     index = i;
@@ -212,21 +207,26 @@
                 {
                     if ((i + 1) < playersOnServe)
                     {
-                        idPlayer[i] = idPlayer[i + 1];
-                        playerNames[i] = playerNames[i + 1];
-                        playerLife[i] = playerLife[i + 1];
-                        playerAttack[i] = playerAttack[i + 1];
-                        playerDefense[i] = playerDefense[i + 1];
-                        playerPoints[i] = playerPoints[i + 1];
+                        players[i] = players[i + 1];
+                        
+                        //idPlayer[i] = idPlayer[i + 1];
+                        //playerNames[i] = playerNames[i + 1];
+                        //playerLife[i] = playerLife[i + 1];
+                        //playerAttack[i] = playerAttack[i + 1];
+                        //playerDefense[i] = playerDefense[i + 1];
+                        //playerPoints[i] = playerPoints[i + 1];
                     }
                     else
                     {
-                        idPlayer[i] = 0;
-                        playerNames[i] = "";
-                        playerLife[i] = 0;
-                        playerAttack[i] = 0;
-                        playerDefense[i] = 0;
-                        playerPoints[i] = 0;
+                        players[i] = new Player();
+
+
+                        //idPlayer[i] = 0;
+                        //playerNames[i] = "";
+                        //playerLife[i] = 0;
+                        //playerAttack[i] = 0;
+                        //playerDefense[i] = 0;
+                        //playerPoints[i] = 0;
                     }
                 }
 
