@@ -16,10 +16,10 @@
         static Map mapa = new Map();
 
         static char[,] map = new char[10, 10];
-        static Item[,] itemsMap = new Item[10, 10];
-        static Enemy[,] enemiesMap = new Enemy[10, 10];
-        static int[,] mapExploration = new int[10, 10];
-        static int[,] mapCodeExploration = new int[12, 12];
+        //static Item[,] itemsMap = new Item[10, 10];
+        //static Enemy[,] enemiesMap = new Enemy[10, 10];
+        //static int[,] mapExploration = new int[10, 10];
+        //static int[,] mapCodeExploration = new int[12, 12];
         static float maxExploration = 0;
         static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
         static bool wasMapGenerated = false, hasPlayBegun = false;
@@ -459,7 +459,7 @@
                 Console.WriteLine("===== RELATÓRIO DA EXPLORAÇÃO =====");
                 Console.WriteLine();
 
-                ContarElementos(0, map);
+                mapa.ContarElementos();
                 PercentualExploracao();
                 AvaliarSituacaoJogador();
 
@@ -468,7 +468,7 @@
 
         }
 
-        private static void ContarElementos(int elementCode, char[,] map)
+        private static void ContarElementos(char[,] map)
         {
             for (int i = 0; i < elementsCounter.Length; i++)
             {
@@ -554,19 +554,19 @@
         private static void PercentualExploracao()
         {
             int exploredAreas = 0;
-            float percentage = 0;
+            //float percentage = 0;
 
-            for (int i = 0; i < mapExploration.GetLength(0); i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < mapExploration.GetLength(1); j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    exploredAreas += mapExploration[i, j];
+                    exploredAreas += mapa.MapExplorationElement(i, j);
                 }
             }
 
-            percentage = (exploredAreas / maxExploration) * 100;
+            //percentage = (exploredAreas / maxExploration) * 100;
 
-            Console.WriteLine("Percentual explorado: " + percentage.ToString("F1") + "%");
+            Console.WriteLine("Percentual explorado: " + mapa.Exploration(exploredAreas).ToString("F1") + "%");
         }
 
         private static void AvaliarSituacaoJogador()
@@ -586,11 +586,11 @@
 
         private static void SecretReport()//Está aqui para testes apenas
         {
-            for (int i = 0; i < mapExploration.GetLength(0); i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < mapExploration.GetLength(1); j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    Console.Write(mapExploration[i, j] + " ");
+                    Console.Write(mapa.MapExplorationElement(i, j) + " ");
                 }
                 Console.WriteLine();
             }
@@ -621,35 +621,7 @@
         }
 
         #endregion
-
-        //private static int ContarPerigoArredores(char[,] map, int linha, int coluna)
-        //{
-
-        //    if (coluna < map.GetLength(1) - 1)
-        //    {
-        //        coluna++;
-        //    }
-        //    else
-        //    {
-        //        linha++;
-        //        coluna = 0;
-        //    }
-
-
-        //    if (linha >= map.GetLength(0))
-        //    {
-        //        return 0;
-        //    }
-        //    else if (map[linha, coluna] == 'I')
-        //    {
-        //        return 1 + ContarPerigoArredores(map, linha, coluna);
-        //    }
-        //    else
-        //    {
-        //        return ContarPerigoArredores(map, linha, coluna);
-        //    }
-
-        //}
+                
 
         private static void ExplorarRecursivamente()
         {
@@ -661,7 +633,7 @@
                 for (int j = 0; j < tempMap.GetLength(1); j++)
                 {
                     //int x = mapCodeExploration[i, j];
-                    tempMap[i, j] = mapCodeExploration[i, j];
+                    tempMap[i, j] = mapa.MapCodeExplorationElement(i, j);
                 }
             }
 

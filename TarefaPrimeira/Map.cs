@@ -55,6 +55,16 @@
             return map[line, row];
         }
 
+        public int MapExplorationElement(int line, int row)
+        {
+            return mapExploration[line, row];
+        }
+
+        public int MapCodeExplorationElement(int line, int row)
+        {
+            return mapCodeExploration[line, row];
+        }
+
         public int ItemPoints(int line, int row)
         {
             return itemsMap[line, row]._Points;
@@ -248,21 +258,93 @@
             Console.WriteLine("");
         }
 
-        //public void DetectPlayer()
-        //{
-        //    for (int i = 0; i < map.GetLength(0); i++)
-        //    {
-        //        for (int j = 0; j < map.GetLength(1); j++)
-        //        {
-        //            if (map[i, j] == 'P')
-        //            {
-        //                playerLine = i;
-        //                playerRow = j;
-        //                mapExploration[i, j] = 1;
-        //                //mapCodeExploration[i + 1, j + 1] = 1;
-        //            }
-        //        }
-        //    }
-        //}
+        public void ContarElementos()
+        {
+            for (int i = 0; i < elementsCounter.Length; i++)
+            {
+                elementsCounter[i] = 0;
+            }
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    //if (map[i, j] == 'E') elementsCounter[0]++;
+                    //else if (map[i, j] == 'I') elementsCounter[1]++;
+                    if (map[i, j] == 'X') elementsCounter[2]++;
+                }
+            }
+
+            elementsCounter[0] = ContarInimigosRecursivo(map, 0, 0);
+            elementsCounter[1] = ContarItensRecursivo(map, 0, 0);
+
+            Console.WriteLine("Inimigos restantes: " + elementsCounter[0]);
+            Console.WriteLine("Itens restantes: " + elementsCounter[1]);
+            Console.WriteLine("Obstáculos no mapa: " + elementsCounter[2]);
+        }
+
+        private static int ContarInimigosRecursivo(char[,] map, int linha, int coluna)
+        {
+
+            if (coluna < map.GetLength(1) - 1)
+            {
+                coluna++;
+            }
+            else
+            {
+                linha++;
+                coluna = 0;
+            }
+
+
+            if (linha >= map.GetLength(0))
+            {
+                return 0;
+            }
+            else if (map[linha, coluna] == 'E')
+            {
+                return 1 + ContarInimigosRecursivo(map, linha, coluna);
+            }
+            else
+            {
+                return ContarInimigosRecursivo(map, linha, coluna);
+            }
+
+        }
+
+        private int ContarItensRecursivo(char[,] map, int linha, int coluna)
+        {
+
+            if (coluna < map.GetLength(1) - 1)
+            {
+                coluna++;
+            }
+            else
+            {
+                linha++;
+                coluna = 0;
+            }
+
+
+            if (linha >= map.GetLength(0))
+            {
+                return 0;
+            }
+            else if (map[linha, coluna] == 'I')
+            {
+                return 1 + ContarItensRecursivo(map, linha, coluna);
+            }
+            else
+            {
+                return ContarItensRecursivo(map, linha, coluna);
+            }
+
+        }
+
+        public float Exploration(int exploredAreas)
+        {
+            return (exploredAreas / maxExploration) * 100;
+        }
+
     }
 }
