@@ -8,19 +8,14 @@
         static Random rb = new Random();
         static int maxPlayers = 4;
 
-        static Player[] players = new Player[maxPlayers];
-
-        static int[] idPlayer = new int[maxPlayers];
-        static string[] playerNames = new string[maxPlayers];
-        static int[] playerLife = new int[maxPlayers];
-        static int[] playerAttack = new int[maxPlayers];
-        static int[] playerDefense = new int[maxPlayers];
-        static int[] playerPoints = new int[maxPlayers];
+        static Player[] players = new Player[maxPlayers]; 
         static int playerLine = -1;
         static int playerRow = -1;
 
         //Mapa
         static char[,] map = new char[10, 10];
+        static Item[,] itemsMap = new Item[10, 10];
+        static Enemy[,] enemiesMap = new Enemy[10, 10];
         static int[,] mapExploration = new int[10, 10];
         static int[,] mapCodeExploration = new int[12, 12];
         static float maxExploration = 0;
@@ -270,6 +265,7 @@
                         else if (n <= 2)
                         {
                             map[i, j] = 'E';
+                            enemiesMap[i, j] = new Enemy("E",10, rb.Next(15, 26));
 
                             enemyCounter++;
                             mapCodeExploration[i + 1, j + 1] = 0;
@@ -277,6 +273,8 @@
                         else if (n >= 3 && n <= 6)
                         {
                             map[i, j] = 'I';
+                            itemsMap[i, j] = new Item("I", rb.Next(5,16));
+
                             itemCounter++;
                             mapCodeExploration[i + 1, j + 1] = 0;
                         }
@@ -452,14 +450,14 @@
                         {
                             if (map[playerLine - 1, playerRow] == 'I')
                             {
-                                playerPoints[activePlayerIndex] += 10;
-                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                players[activePlayerIndex]._Points = itemsMap[playerLine - 1, playerRow]._Points;
+                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine - 1, playerRow]._Points +" pts)");
                                 Console.WriteLine();
                             }
                             else if (map[playerLine - 1, playerRow] == 'E')
                             {
-                                playerPoints[activePlayerIndex] += 20;
-                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                players[activePlayerIndex]._Points = enemiesMap[playerLine - 1, playerRow]._Points;
+                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine - 1, playerRow]._Points + " pts)");
                                 Console.WriteLine();
                             }
 
@@ -488,14 +486,14 @@
                         {
                             if (map[playerLine + 1, playerRow] == 'I')
                             {
-                                playerPoints[activePlayerIndex] += 10;
-                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                players[activePlayerIndex]._Points = itemsMap[playerLine + 1, playerRow]._Points;
+                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine + 1, playerRow]._Points +"pts)");
                                 Console.WriteLine();
                             }
                             else if (map[playerLine + 1, playerRow] == 'E')
                             {
-                                playerPoints[activePlayerIndex] += 20;
-                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                players[activePlayerIndex]._Points = enemiesMap[playerLine + 1, playerRow]._Points;
+                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine + 1, playerRow]._Points + " pts)");
                                 Console.WriteLine();
                             }
 
@@ -524,14 +522,14 @@
                         {
                             if (map[playerLine, playerRow - 1] == 'I')
                             {
-                                playerPoints[activePlayerIndex] += 10;
-                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                players[activePlayerIndex]._Points = itemsMap[playerLine, playerRow - 1]._Points; ;
+                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine, playerRow - 1]._Points + "pts)");
                                 Console.WriteLine();
                             }
                             else if (map[playerLine, playerRow - 1] == 'E')
                             {
-                                playerPoints[activePlayerIndex] += 20;
-                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                players[activePlayerIndex]._Points = enemiesMap[playerLine, playerRow - 1]._Points;
+                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine, playerRow - 1]._Points + " pts)");
                                 Console.WriteLine();
                             }
 
@@ -560,14 +558,14 @@
                         {
                             if (map[playerLine, playerRow + 1] == 'I')
                             {
-                                playerPoints[activePlayerIndex] += 10;
-                                Console.WriteLine("Peguei um item! (+10 pts)");
+                                players[activePlayerIndex]._Points = itemsMap[playerLine, playerRow + 1]._Points;
+                                Console.WriteLine("Peguei um item! (+" + itemsMap[playerLine, playerRow + 1]._Points + "pts)");
                                 Console.WriteLine();
                             }
                             else if (map[playerLine, playerRow + 1] == 'E')
                             {
-                                playerPoints[activePlayerIndex] += 20;
-                                Console.WriteLine("Matei um inimigo! (+20 pts)");
+                                players[activePlayerIndex]._Points = enemiesMap[playerLine, playerRow + 1]._Points;
+                                Console.WriteLine("Matei um inimigo! (+" + enemiesMap[playerLine, playerRow + 1]._Points + " pts)");
                                 Console.WriteLine();
                             }
 
@@ -722,13 +720,13 @@
         {
             string playerLifeSituation = "Vida moderada", exploration = "Exploração estável";
 
-            if (playerLife[activePlayerIndex] >= 80) playerLifeSituation = "Vida alta";
-            else if (playerLife[activePlayerIndex] < 40) playerLifeSituation = "Vida crítica";
+            if (players[activePlayerIndex]._Life >= 80) playerLifeSituation = "Vida alta";
+            else if (players[activePlayerIndex]._Life < 40) playerLifeSituation = "Vida crítica";
             else playerLifeSituation = "Vida moderada";
             Console.WriteLine("Situação da vida: " + playerLifeSituation);
 
-            if (playerPoints[activePlayerIndex] >= 100 && elementsCounter[0] <= 2) exploration = "Exploração excelente";
-            else if (playerPoints[activePlayerIndex] >= 50) exploration = "Exploração estável";
+            if (players[activePlayerIndex]._Points >= 100 && elementsCounter[0] <= 2) exploration = "Exploração excelente";
+            else if (players[activePlayerIndex]._Points >= 50) exploration = "Exploração estável";
             else exploration = "Exploração em risco";
             Console.WriteLine("Situação do desempenho: " + exploration);
         }
@@ -751,12 +749,12 @@
         private static void PontuacaoTotal()
         {
 
-            int x = SomarPontuacoesRecursivo(playerPoints, playersOnServe - 1);
+            int x = SomarPontuacoesRecursivo(players, playersOnServe - 1);
             Console.WriteLine("Pontuação total: " + x);
             Console.WriteLine();
         }
 
-        private static int SomarPontuacoesRecursivo(int[] totalPlayerPoints, int players)
+        private static int SomarPontuacoesRecursivo(Player[] totalPlayerPoints, int players)
         {
             if (players < 0)
             {
@@ -765,7 +763,7 @@
             }
             else
             {
-                return totalPlayerPoints[players] + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
+                return totalPlayerPoints[players]._Points + SomarPontuacoesRecursivo(totalPlayerPoints, players - 1);
             }
         }
 

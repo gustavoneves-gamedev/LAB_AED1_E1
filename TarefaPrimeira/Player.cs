@@ -26,6 +26,18 @@
             set { id = value; }
         }
 
+        public int _Life
+        {
+            get { return life; }
+            set { life += value; }
+        }
+
+        public int _Points
+        {
+            get { return points; }
+            set { points += value; }
+        }
+
         public void ExibirDados()
         {
             Console.WriteLine("ID: " + id);
