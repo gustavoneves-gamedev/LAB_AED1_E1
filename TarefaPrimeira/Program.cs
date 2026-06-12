@@ -13,16 +13,9 @@
         static int playerRow = -1;
 
         //Mapa
-        static Map mapa = new Map();
-
-        static char[,] map = new char[10, 10];
-        //static Item[,] itemsMap = new Item[10, 10];
-        //static Enemy[,] enemiesMap = new Enemy[10, 10];
-        //static int[,] mapExploration = new int[10, 10];
-        //static int[,] mapCodeExploration = new int[12, 12];
-        static float maxExploration = 0;
-        static int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
-        static bool wasMapGenerated = false, hasPlayBegun = false;
+        static Map mapa = new Map();       
+        
+        static bool hasPlayBegun = false;
 
         static void Main(string[] args)
         {
@@ -166,7 +159,7 @@
                     Console.WriteLine("");
                     hasFound = true;
                     activePlayerIndex = i;
-                    if (wasMapGenerated == true) hasPlayBegun = true;
+                    if (mapa._WasMapGenerated == true) hasPlayBegun = true;
                 }
             }
 
@@ -466,90 +459,7 @@
                 Console.WriteLine();
             }
 
-        }
-
-        private static void ContarElementos(char[,] map)
-        {
-            for (int i = 0; i < elementsCounter.Length; i++)
-            {
-                elementsCounter[i] = 0;
-            }
-
-            for (int i = 0; i < map.GetLength(0); i++)
-            {
-                for (int j = 0; j < map.GetLength(1); j++)
-                {
-                    //if (map[i, j] == 'E') elementsCounter[0]++;
-                    //else if (map[i, j] == 'I') elementsCounter[1]++;
-                    if (map[i, j] == 'X') elementsCounter[2]++;
-                }
-            }
-
-            elementsCounter[0] = ContarInimigosRecursivo(map, 0, 0);
-            elementsCounter[1] = ContarItensRecursivo(map, 0, 0);
-
-            Console.WriteLine("Inimigos restantes: " + elementsCounter[0]);
-            Console.WriteLine("Itens restantes: " + elementsCounter[1]);
-            Console.WriteLine("Obstáculos no mapa: " + elementsCounter[2]);
-        }
-
-        private static int ContarInimigosRecursivo(char[,] map, int linha, int coluna)
-        {
-
-            if (coluna < map.GetLength(1) - 1)
-            {
-                coluna++;
-            }
-            else
-            {
-                linha++;
-                coluna = 0;
-            }
-
-
-            if (linha >= map.GetLength(0))
-            {
-                return 0;
-            }
-            else if (map[linha, coluna] == 'E')
-            {
-                return 1 + ContarInimigosRecursivo(map, linha, coluna);
-            }
-            else
-            {
-                return ContarInimigosRecursivo(map, linha, coluna);
-            }
-
-        }
-
-        private static int ContarItensRecursivo(char[,] map, int linha, int coluna)
-        {
-
-            if (coluna < map.GetLength(1) - 1)
-            {
-                coluna++;
-            }
-            else
-            {
-                linha++;
-                coluna = 0;
-            }
-
-
-            if (linha >= map.GetLength(0))
-            {
-                return 0;
-            }
-            else if (map[linha, coluna] == 'I')
-            {
-                return 1 + ContarItensRecursivo(map, linha, coluna);
-            }
-            else
-            {
-                return ContarItensRecursivo(map, linha, coluna);
-            }
-
-        }
+        }        
 
         private static void PercentualExploracao()
         {
@@ -578,7 +488,7 @@
             else playerLifeSituation = "Vida moderada";
             Console.WriteLine("Situação da vida: " + playerLifeSituation);
 
-            if (players[activePlayerIndex]._Points >= 100 && elementsCounter[0] <= 2) exploration = "Exploração excelente";
+            if (players[activePlayerIndex]._Points >= 100 && mapa._Enemies <= 2) exploration = "Exploração excelente";
             else if (players[activePlayerIndex]._Points >= 50) exploration = "Exploração estável";
             else exploration = "Exploração em risco";
             Console.WriteLine("Situação do desempenho: " + exploration);
@@ -622,7 +532,6 @@
 
         #endregion
                 
-
         private static void ExplorarRecursivamente()
         {
 

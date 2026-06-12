@@ -17,12 +17,12 @@
 
         float maxExploration = 0;
         int[] elementsCounter = new int[3]; // 0 - Inimigos, 1 - Itens, 2 - Obstaculos
-        bool wasMapGenerated = false, hasPlayBegun = false;
+        bool wasMapGenerated = false;
 
         public Map(int linhas = 10, int colunas = 10)
         {
-            this.linhas = linhas;
-            this.colunas = colunas;
+            //this.linhas = linhas;
+            //this.colunas = colunas;
             map = new char[linhas, colunas];
             Initialize();
         }
@@ -31,6 +31,12 @@
         {
             get { return wasMapGenerated; }
             set { wasMapGenerated = value; }
+        }
+
+        public int _Enemies
+        {
+            get { return elementsCounter[0]; }
+            set { elementsCounter[0] = value; }
         }
 
         #region Map Manipulation
@@ -74,6 +80,7 @@
         {
             return enemiesMap[line, row]._Points;
         }
+
 
         #endregion
 
@@ -178,8 +185,13 @@
 
                 while (canProcede == false)
                 {
-                    if (map[(x - 1), (y - 1)] != '.' || x < 1 || y < 1
-                        || x > map.GetLength(0) || y > map.GetLength(1))
+                    if (x < 1 || y < 1 || x > map.GetLength(0) || y > map.GetLength(1))
+                    {
+                        Console.WriteLine("Espaço inválido! Escolha coordenadas livres [Linha, Coluna]");
+                        x = int.Parse(Console.ReadLine());
+                        y = int.Parse(Console.ReadLine());
+                    }
+                    else if (map[(x - 1), (y - 1)] != '.')
                     {
                         Console.WriteLine("Espaço inválido! Escolha coordenadas livres [Linha, Coluna]");
                         x = int.Parse(Console.ReadLine());
@@ -194,14 +206,15 @@
                         canProcede = true;
                     }
                 }
-
-
-                MostrarMapa();
-
-                Console.WriteLine();
             }
 
+
+            MostrarMapa();
+
+            Console.WriteLine();
         }
+
+
 
         public void MostrarMapa()
         {
