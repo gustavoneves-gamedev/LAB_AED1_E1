@@ -1,4 +1,4 @@
-# LAB_AED1_E5
+# LAB_AED1_E6
 
 ## Disciplina
 Algoritmos e Estruturas de Dados I – Laboratório
@@ -7,7 +7,7 @@ Algoritmos e Estruturas de Dados I – Laboratório
 Jogos Digitais – PUC Minas Lourdes
 
 ## Etapa
-Entrega 5 – Recursividade
+Entrega 6 – POO
 
 ## Descrição
 Este projeto consiste em uma aplicação console em C# do sistema **Dungeon Explorer**.
@@ -25,12 +25,22 @@ O sistema mantém as funcionalidades das etapas anteriores:
 - movimentação do jogador
 - relatório de exploração
 
-Nesta entrega, foram adicionadas ou atualizadas as seguintes funcionalidades:
+Classes implementadas:
+Jogador
+Item
+Inimigo
+Mapa
 
-- contagem recursiva de inimigos
-- contagem recursiva de itens
-- exploração recursiva da área acessível a partir da posição do jogador
-- soma recursiva da pontuação total dos jogadores
+Substituição dos vetores paralelos:
+Nas etapas anteriores, os dados dos jogadores eram armazenados em vários vetores separados:
+
+idPlayer[]
+playerNames[]
+playerLife[]
+playerAttack[]
+playerDefense[]
+playerPoints[]
+
 
 ---
 
@@ -42,22 +52,79 @@ S - baixo
 D - direita
 (Case Insensitive)
 
-## Estruturas utilizadas
+## Classes utilizadas
 
-### Vetores
-Foram utilizados vetores paralelos para armazenar os dados dos jogadores:
+Classes criadas na Etapa 6:
 
-- ID
-- Nome
-- Vida
-- Ataque
-- Defesa
-- Pontuação
+1 - Classe Jogador:
+Representa um jogador cadastrado no sistema.
 
-Também foi utilizada uma variável de controle para a quantidade de jogadores cadastrados no servidor.
+Atributos principais:
 
-### Matriz
-Utilizada para representar o mapa da masmorra
+id
+nome
+vida
+ataque
+defesa
+pontuação
+
+Responsabilidades:
+
+armazenar os dados do jogador
+iniciar a pontuação com valor 0
+permitir acesso aos dados por getters, setters ou propriedades
+atualizar a pontuação do jogador
+exibir os dados do jogador
+
+2 - Classe Item:
+Representa um item coletável na masmorra.
+
+Atributos principais:
+
+nome
+valor
+
+Responsabilidades:
+
+armazenar o nome do item
+armazenar o valor de pontuação concedido
+permitir acesso aos dados do item
+
+3 - Classe Inimigo:
+Representa um inimigo presente no mapa.
+
+Atributos principais:
+
+nome
+vida
+pontuacaoRecompensa
+
+Responsabilidades:
+
+armazenar os dados do inimigo
+armazenar a pontuação concedida ao jogador
+permitir acesso aos dados do inimigo
+
+
+4 - Classe Mapa:
+Representa a masmorra do jogo.
+
+Atributos principais:
+
+grade
+linhas
+colunas
+
+Responsabilidades:
+
+inicializar o mapa
+gerar o conteúdo da masmorra
+exibir o mapa
+validar posições
+obter o conteúdo de uma célula
+alterar o conteúdo de uma célula
+marcar posições visitadas.
+
 
 ## Requisitos para compilação
 Para compilar e executar o projeto, é necessário ter instalado:

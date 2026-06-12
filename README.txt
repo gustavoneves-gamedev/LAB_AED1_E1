@@ -1,8 +1,8 @@
-LAB_AED1_E5
+LAB_AED1_E6
 
 Disciplina: Algoritmos e Estruturas de Dados I – Laboratório
 Curso: Jogos Digitais – PUC Minas Lourdes
-Etapa: Entrega 5 – Recursividade
+Etapa: Entrega 6 – POO
 
 Descrição:
 O sistema Dungeon Explorer foi expandido com funções recursivas para análise da masmorra, exploração de área e soma da pontuação total dos jogadores.
@@ -46,52 +46,92 @@ PontuacaoTotal()
 SomarPontuacoesRecursivo()
 SecretReport()
 
-Funções recursivas da Etapa 5:
+Classes implementadas:
+Jogador
+Item
+Inimigo
+Mapa
 
-1. ContarInimigosRecursivo(char[,] map, int linha, int coluna)
-Descrição:
-Conta recursivamente a quantidade de inimigos restantes no mapa.
+Substituição dos vetores paralelos:
+Nas etapas anteriores, os dados dos jogadores eram armazenados em vários vetores separados:
 
-Caso base:
-Quando a linha ultrapassa o tamanho da matriz, a função retorna 0.
+idPlayer[]
+playerNames[]
+playerLife[]
+playerAttack[]
+playerDefense[]
+playerPoints[]
 
-Caso recursivo:
-A função verifica a célula atual.
-Se encontrar 'E', soma 1 e chama novamente a função.
-Caso contrário, apenas chama novamente a função para continuar percorrendo a matriz.
+Classes criadas na Etapa 6:
 
-2. ContarItensRecursivo(char[,] map, int linha, int coluna)
-Descrição:
-Conta recursivamente a quantidade de itens restantes no mapa.
+1 - Classe Jogador:
+Representa um jogador cadastrado no sistema.
 
-Caso base:
-Quando a linha ultrapassa o tamanho da matriz, a função retorna 0.
+Atributos principais:
 
-Caso recursivo:
-A função verifica a célula atual.
-Se encontrar 'I', soma 1 e chama novamente a função.
-Caso contrário, apenas chama novamente a função para continuar percorrendo a matriz.
+id
+nome
+vida
+ataque
+defesa
+pontuação
 
-3. AreaExploravel(int playerL, int playerR, int[,] map)
-Descrição:
-Explora recursivamente a área alcançável a partir da posição atual do jogador.
+Responsabilidades:
 
-Caso base:
-Quando a posição está bloqueada ou já visitada, a função retorna 0.
+armazenar os dados do jogador
+iniciar a pontuação com valor 0
+permitir acesso aos dados por getters, setters ou propriedades
+atualizar a pontuação do jogador
+exibir os dados do jogador
 
-Caso recursivo:
-Quando a posição é válida, a função marca a célula como visitada e chama a si mesma nas quatro direções:
-esquerda, direita, baixo e cima.
+2 - Classe Item:
+Representa um item coletável na masmorra.
 
-4. SomarPontuacoesRecursivo(int[] totalPlayerPoints, int players)
-Descrição:
-Soma recursivamente a pontuação total dos jogadores cadastrados.
+Atributos principais:
 
-Caso base:
-Quando o índice é menor que 0, a função retorna 0.
+nome
+valor
 
-Caso recursivo:
-Soma a pontuação do jogador atual com a chamada recursiva para o jogador anterior.
+Responsabilidades:
+
+armazenar o nome do item
+armazenar o valor de pontuação concedido
+permitir acesso aos dados do item
+
+3 - Classe Inimigo:
+Representa um inimigo presente no mapa.
+
+Atributos principais:
+
+nome
+vida
+pontuacaoRecompensa
+
+Responsabilidades:
+
+armazenar os dados do inimigo
+armazenar a pontuação concedida ao jogador
+permitir acesso aos dados do inimigo
+
+
+4 - Classe Mapa:
+Representa a masmorra do jogo.
+
+Atributos principais:
+
+grade
+linhas
+colunas
+
+Responsabilidades:
+
+inicializar o mapa
+gerar o conteúdo da masmorra
+exibir o mapa
+validar posições
+obter o conteúdo de uma célula
+alterar o conteúdo de uma célula
+marcar posições visitadas.
 
 Menu:
 1 - Cadastrar jogador
